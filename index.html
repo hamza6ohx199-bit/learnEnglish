@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج تعلم الإنجليزية</title>
+    <style>
+        /* ==========================================================================
+           1. اسْتِيرَادُ الْخُطُوطِ وَالْمُتَغَيِّرَاتِ الدِّينَامِيكِيَّةِ (Fonts & Variables)
+           ========================================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
+        :root {
+            --primary: #2563eb; 
+            --dark: #0f172a;
+            --dark-card: #1e293b;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-gradient: radial-gradient(circle at top left, #f8fafc 0%, #e2e8f0 100%);
+            --white-glass: rgba(255, 255, 255, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.6);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gold: #f59e0b;
+            --us-color: #2563eb;
+            --uk-color: #dc2626;
+        }
+
+        /* ==========================================================================
+           2. الْإِعْدَادَاتُ الْأَسَاسِيَّةُ وَتَصْفِيرُ الْهَيْكَلِ (Reset & Base)
+           ========================================================================== */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body { 
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif; 
+            background: var(--bg-gradient); 
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* تَخْصِيصُ شَرِيطِ التَّمْرِيرِ (Scrollbar) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary); 
+            border-radius: 20px;
+            border: 2px solid #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark); 
+        }
+
+        .dual-flag-bar {
+            height: 12px;
+            width: 100%;
+            background: linear-gradient(to right, var(--us-color) 0%, var(--us-color) 45%, #ffffff 45%, #ffffff 55%, var(--uk-color) 55%, var(--uk-color) 100%);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ==========================================================================
+           3. الْهَيْدَرُ الزُّجَاجِيُّ وَالْعَدَّادَاتُ (Glass Header & Counters)
+           ========================================================================== */
+        header { 
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: center; 
+            padding: 35px 20px; 
+            border-bottom: 1px solid var(--border-glass);
+            position: relative;
+            z-index: 10;
+        }
+        
+        header h1 { 
+            color: var(--dark); 
+            font-size: 2.6em; 
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        
+        header p { 
+            font-size: 1.15em; 
+            color: var(--text-muted); 
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .total-counter-badge {
+            background: var(--white-glass);
+            border: 1px solid var(--border-glass);
+            padding: 12px 28px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 18px auto 0 auto;
+            font-weight: 700;
+            font-size: 1.15em;
+            color: var(--dark);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .total-counter-badge:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .total-counter-badge span {
+            color: var(--primary);
+            font-size: 1.3em;
+            margin: 0 4px;
+            font-weight: 900;
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            flex-grow: 1;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        /* ==========================================================================
+           4. كُرُوتُ الْأَقْسَامِ الرَّئِيسِيَّةِ (Modern Categories)
+           ========================================================================== */
+        .categories { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; 
+        }
+        
+        .card { 
+            background: var(--white-glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 35px 25px; 
+            border-radius: 24px; 
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-glass);
+            border-top: 6px solid var(--primary);
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg);
+            background: #ffffff;
+        }
+        
+        .card h3 { 
+            color: var(--dark); 
+            margin-bottom: 12px; 
+            font-size: 1.45em; 
+            font-weight: 700;
+        }
+
+        .category-count-badge {
+            background-color: rgba(241, 245, 249, 0.8);
+            color: var(--primary);
+            font-size: 0.9em;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* ==========================================================================
+           5. الْإِمْتِحَانَاتُ وَالتَّحَدِّيَّاتُ (Quiz UI)
+           ========================================================================== */
+        .progress-card {
+            background: var(--dark);
+            color: white;
+            padding: 24px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto 30px auto;
+            border-bottom: 5px solid var(--gold);
+            box-shadow: var(--shadow-md);
+        }
+
+        .progress-score {
+            font-size: 2.8em;
+            color: var(--gold);
+            font-weight: 900;
+            margin-top: 5px;
+        }
+
+        .quiz-container {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            max-width: 750px;
+            margin: 0 auto;
+            border: 1px solid var(--border-glass);
+            border-top: 6px solid var(--primary);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #f1f5f9;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quiz-question {
+            font-size: 1.4em;
+            color: var(--dark);
+            font-weight: 700;
+            line-height: 1.6;
+        }
+        .quiz-question span {
+            color: var(--primary);
+            display: block;
+            margin-top: 5px;
+        }
+
+        .quiz-options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-top: 25px; 
+        }
+
+        .option-btn {
+            background-color: #f8fafc; 
+            color: var(--dark); 
+            border: 1px solid #e2e8f0;
+            padding: 16px; 
+            border-radius: 14px; 
+            font-size: 1.15em; 
+            cursor: pointer;
+            transition: all 0.2s ease; 
+            font-weight: 700; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            width: 100%;
+            text-align: right;
+        }
+
+        .option-btn:hover:not(:disabled) { 
+            border-color: var(--primary); 
+            background-color: #ffffff;
+            transform: scale(1.01);
+        }
+        
+        .correct-answer { background-color: #ecfdf5 !important; border-color: var(--success) !important; color: #065f46 !important; }
+        .wrong-answer { background-color: #fef2f2 !important; border-color: var(--danger) !important; color: #991b1b !important; }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 15px;
+        }
+        .quiz-btn:hover {
+            background: var(--dark);
+        }
+
+        .inline-audio-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .question-counter {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* ==========================================================================
+           6. النَّافِذَةُ الْمُنْبَثِقَةُ وَأَسْطُرُ النُّطْقِ الْمَكْتُوبِ (Modal & Sentences)
+           ========================================================================== */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-content { 
+            background: #ffffff; 
+            width: 100%; 
+            max-width: 850px; 
+            padding: 40px 30px; 
+            border-radius: 28px; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+            position: relative;
+            border-top: 8px solid var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .close-btn { 
+            position: absolute; 
+            top: 20px; 
+            left: 25px; 
+            font-size: 30px; 
+            cursor: pointer; 
+            color: var(--text-muted); 
+            transition: all 0.2s ease;
+        }
+        
+        .close-btn:hover { 
+            color: var(--danger); 
+            transform: rotate(90deg);
+        }
+        
+        .sentence-item { 
+            padding: 25px; 
+            border: 1px solid #e2e8f0; 
+            background-color: #f8fafc;
+            margin-bottom: 25px; 
+            border-radius: 20px; 
+            border-right: 6px solid var(--primary);
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sentence-text-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .english-title-text { 
+            font-weight: 700; 
+            font-size: 1.55em; 
+            direction: ltr; 
+            text-align: left; 
+            color: var(--dark); 
+            line-height: 1.4;
+        }
+
+        .breakdown-group, .pronunciation-group, .translation-group {
+            text-align: right;
+            font-size: 1.05em;
+        }
+        .breakdown-group span { font-weight: bold; color: var(--warning); }
+        .pronunciation-ar { color: #166534; font-weight: bold; }
+        .pronunciation-en { color: #3730a3; font-weight: bold; direction: ltr; display: inline-block; }
+        .arabic-text { color: var(--dark); font-weight: bold; }
+        .english-sub-text { direction: ltr; text-align: left; color: var(--text-muted); display: block; }
+
+        .speak-btn { 
+            background-color: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 50%;
+            width: 45px; 
+            height: 45px; 
+            font-size: 1.3em; 
+            cursor: pointer; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .speak-btn:hover { 
+            background-color: var(--primary); 
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.08);
+        }
+
+        /* ==========================================================================
+           7. النَّمَاذِجُ وَالْفُوتِرُ (Forms & Footer)
+           ========================================================================== */
+        .form-group { 
+            margin-bottom: 16px; 
+            text-align: right; 
+        }
+        
+        .form-group label { 
+            display: block; 
+            font-weight: 700; 
+            margin-bottom: 6px; 
+            color: var(--dark); 
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 10px;
+            font-size: 1.05em; 
+            background: #f8fafc;
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 25px; 
+            font-weight: 700; 
+            color: #94a3b8; 
+            background-color: var(--dark); 
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dual-flag-bar"></div>
+
+    <header>
+        <h1>🇺🇸 برنامج تعلم الإنجليزية</h1>
+        <p>طريقك لإتقان اللغة الإنجليزية خطوة بخطوة</p>
+        <div class="total-counter-badge">
+            إجمالي الكلمات والجمل: <span id="global-count">0</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 class="section-title">التصنيفات الرئيسية</h2>
+        </div>
+        <div class="categories" id="categories-container"></div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="quiz-btn" onclick="openAddWordModal()">
+                ➕ إضافة جملة جديدة (قاموسي)
+            </button>
+        </div>
+
+        <div style="text-align: center;">
+            <h2 class="section-title">🏆 اختبر مستواك (تحدي الـ 50 سؤال)</h2>
+        </div>
+
+        <div class="progress-card">
+            <h3>الرصيد الإجمالي للإجابات الصحيحة</h3>
+            <div class="progress-score" id="score-display">0</div>
+        </div>
+
+        <div class="quiz-container">
+            <div id="quiz-content">
+                <p class="quiz-question">مستعد لتحدي الـ 50 سؤال؟</p>
+                <button class="quiz-btn" id="quiz-start-btn" onclick="startQuizSession()">ابدأ التحدي الآن 🚀</button>
+            </div>
+            <div class="progress-bar-container" style="display: none;" id="quiz-progress-container">
+                <div class="progress-bar-fill" id="quiz-progress-fill"></div>
+            </div>
+            
+            <div id="quiz-options" class="quiz-options"></div>
+            <div id="quiz-feedback"></div>
+            <div id="next-btn-container"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="sentences-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title" style="text-align: center; color: var(--dark); border-bottom: 3px solid #f1f5f9; padding-bottom: 15px;"></h2>
+            <div id="sentences-list"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="add-word-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-btn" onclick="closeAddWordModal()">&times;</span>
+            <h2 style="text-align: center; color: var(--dark); border-bottom: 3px solid #f1f5f9; padding-bottom: 15px;">
+                ➕ إضافة جملة للقاموس
+            </h2>
+            <form id="add-word-form" onsubmit="submitNewWord(event)">
+                <div class="form-group">
+                    <label>القسم (التصنيف):</label>
+                    <select id="new-category" required></select>
+                </div>
+                <div class="form-group">
+                    <label>🇺🇸 الجملة بالإنجليزية:</label>
+                    <input type="text" id="new-de" placeholder="مثال: I am a student" required dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label>🧩 تفكيك الكلمات (Word Breakdown):</label>
+                    <input type="text" id="new-breakdown" placeholder="مثال: I = أنا | am = أكون | a = أداة نكرة | student = طالب" required>
+                </div>
+                <div class="form-group">
+                    <label>🗣️ النطق بالعربي:</label>
+                    <input type="text" id="new-pron-ar" placeholder="مثال: آي أم أ شتودنت" required>
+                </div>
+                <div class="form-group">
+                    <label>🗣️ النطق بالإنجليزي (Phonetics):</label>
+                    <input type="text" id="new-pron-en" placeholder="مثال: Ay am a stoo-dent" required dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label>🇪🇬 الترجمة بالعربي:</label>
+                    <input type="text" id="new-ar" placeholder="مثال: أنا طالب" required>
+                </div>
+                <button type="submit" class="quiz-btn" style="width: 100%;">حفظ وإضافة للقاموس ✅</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>made by Hamza</footer>
+
+    <script>
+        /* =========================================
+           إعدادات الصوت (Text-to-Speech)
+           ========================================= */
+        let englishVoice = null;
+        function loadVoices() {
+            let voices = window.speechSynthesis.getVoices();
+            englishVoice = voices.find(v => v.lang.includes('en-US')) || voices.find(v => v.lang.includes('en')) || voices[0];
+        }
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+            loadVoices();
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                let utterance = new SpeechSynthesisUtterance(text);
+                if (englishVoice) utterance.voice = englishVoice;
+                utterance.lang = 'en-US'; 
+                utterance.rate = 0.85; 
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        /* =========================================
+           قاعدة البيانات الشاملة لتعلم الإنجليزية
+           ========================================= */
+        const data = {
+            "greetings": {
+                title: "التعارف والتحيات 👋",
+                sentences: [
+                    { de: "Good morning", breakdown: "Good = جيد | morning = صباح", pron_ar: "جود مورنينج", pron_en: "Good mor-ning", ar: "صباح الخير" },
+                    { de: "Good evening", breakdown: "Good = جيد | evening = مساء", pron_ar: "جود إيفنينج", pron_en: "Good eve-ning", ar: "مساء الخير" },
+                    { de: "Good night", breakdown: "Good = جيدة | night = ليلة", pron_ar: "جود نايت", pron_en: "Good night", ar: "تصبح على خير" },
+                    { de: "What is your name?", breakdown: "What = ما | is = يكون | your name = اسمك", pron_ar: "وات إيز يور نيم؟", pron_en: "What iz yor neym?", ar: "ما اسمك؟" },
+                    { de: "Nice to meet you", breakdown: "Nice = لطيف | to meet = مقابلة | you = ك (أنت)", pron_ar: "نايس تو ميت يو", pron_en: "Nice too meet yoo", ar: "سعدت بلقائك" },
+                    { de: "How are you?", breakdown: "How = كيف | are = تكون | you = أنت", pron_ar: "هاو آر يو؟", pron_en: "How are yoo?", ar: "كيف حالك؟" },
+                    { de: "I am fine, thank you", breakdown: "I = أنا | am = أكون | fine = بخير | thank you = شكراً لك", pron_ar: "آي أم فاين، ثانك يو", pron_en: "Ay am fyn, thank yoo", ar: "أنا بخير، شكراً" },
+                    { de: "Goodbye", breakdown: "Goodbye = مع السلامة/إلى اللقاء", pron_ar: "جود باي", pron_en: "Good-bye", ar: "إلى اللقاء" },
+                    { de: "Bye", breakdown: "Bye = سلام (غير رسمية)", pron_ar: "باي", pron_en: "Bye", ar: "وداعاً" },
+                    { de: "See you soon", breakdown: "See = أرى | you = ك | soon = قريباً", pron_ar: "سي يو سون", pron_en: "See yoo zoon", ar: "أراك قريباً" },
+                    { de: "Excuse me", breakdown: "Excuse = عذر | me = ني (أنا)", pron_ar: "إكسكيوز مي", pron_en: "Ex-kyooz mee", ar: "معذرة / عذراً" },
+                    { de: "Yes, please", breakdown: "Yes = نعم | please = من فضلك", pron_ar: "يس، بليز", pron_en: "Yes, pleez", ar: "نعم، من فضلك" },
+                    { de: "No, thank you", breakdown: "No = لا | thank you = شكراً لك", pron_ar: "نو، ثانك يو", pron_en: "No, thank yoo", ar: "لا، شكراً" },
+                    { de: "Hello!", breakdown: "Hello = مرحباً", pron_ar: "هلو", pron_en: "He-low", ar: "مرحباً!" },
+                    { de: "How is it going?", breakdown: "How = كيف | is it going = تجري الأمور", pron_ar: "هاو إز إت جوينج", pron_en: "Haw iz it go-ing", ar: "كيف تجري الأمور؟" },
+                    { de: "I am doing well, thanks.", breakdown: "I = أنا | doing well = أؤدي جيداً | thanks = شكراً", pron_ar: "آي أم دوينج ويل، ثانكس", pron_en: "Ay am doo-ing wel, thanks", ar: "أنا بوضع جيد، شكراً." }
+                ]
+            },
+            "home": {
+                title: "في المنزل 🏠",
+                sentences: [
+                    { de: "I am at home", breakdown: "I = أنا | am = أكون | at = في | home = المنزل", pron_ar: "آي أم أت هوم", pron_en: "Ay am at home", ar: "أنا في المنزل" },
+                    { de: "Where is the kitchen?", breakdown: "Where = أين | is = يكون | the = الـ | kitchen = المطبخ", pron_ar: "وير إيز ذي كيتشن؟", pron_en: "Wair iz thee kitch-en?", ar: "أين المطبخ؟" },
+                    { de: "The living room is big", breakdown: "The = الـ | living room = غرفة المعيشة | is = تكون | big = كبيرة", pron_ar: "ذي ليفينج روم إيز بيج", pron_en: "The liv-ing room iz big", ar: "غرفة المعيشة كبيرة" },
+                    { de: "I clean up my room", breakdown: "I = أنا | clean up = أنظف/أرتب | my = لي | room = غرفة", pron_ar: "آي كلين أب ماي روم", pron_en: "Ay kleen up may room", ar: "أنا أرتب غرفتي" },
+                    { de: "The bed is very comfortable", breakdown: "The = الـ | bed = السرير | is = يكون | very = جداً | comfortable = مريح", pron_ar: "ذي بْيد إيز فيري كمفورتابل", pron_en: "The bed iz ve-ry kom-for-ta-ble", ar: "السرير مريح جداً" },
+                    { de: "I am going to sleep now", breakdown: "I = أنا | am going = ذاهب | to sleep = للنوم | now = الآن", pron_ar: "آي أم جوينج تو سليب ناو", pron_en: "Ay am go-ing too sleep now", ar: "سأذهب للنوم الآن" },
+                    { de: "Please close the window", breakdown: "Please = من فضلك | close = أغلق | the = الـ | window = النافذة", pron_ar: "بليز كلوز ذي ويندو", pron_en: "Pleez klohz thee win-doh", ar: "أغلق النافذة من فضلك" },
+                    { de: "Where are my keys?", breakdown: "Where = أين | are = تكون (للجمع) | my = لي | keys = مفاتيح", pron_ar: "وير آر ماي كيز؟", pron_en: "Wair are may keez?", ar: "أين مفتاحي؟" },
+                    { de: "I wash my hands", breakdown: "I = أنا | wash = أغسل | my = لي | hands = أيدي", pron_ar: "آي واش ماي هاندز", pron_en: "Ay wahsh may handz", ar: "أنا أغسل يدي" },
+                    { de: "The TV is broken", breakdown: "The = الـ | TV = التلفاز | is = يكون | broken = معطل/مكسور", pron_ar: "ذي تيفي إيز بروكن", pron_en: "The tee-vee iz broh-ken", ar: "التلفاز معطل" }
+                ]
+            },
+            "restaurant": {
+                title: "المطاعم والأكل 🍽️",
+                sentences: [
+                    { de: "The menu, please", breakdown: "The = الـ | menu = قائمة الطعام | please = من فضلك", pron_ar: "ذي مانيو، بليز", pron_en: "The men-yoo, pleez", ar: "قائمة الطعام، من فضلك" },
+                    { de: "I would like to order, please", breakdown: "I = أنا | would like = أرغب | to order = أن أطلب | please = من فضلك", pron_ar: "آي وود لايك تو أوردر، بليز", pron_en: "Ay wood lyk too or-der, pleez", ar: "أريد أن أطلب من فضلك" },
+                    { de: "The bill, please", breakdown: "The = الـ | bill = الفاتورة | please = من فضلك", pron_ar: "ذي بِل، بليز", pron_en: "The bil, pleez", ar: "الفاتورة من فضلك" },
+                    { de: "The food is very delicious", breakdown: "The = الـ | food = الطعام | is = يكون | very = جداً | delicious = لذيذ", pron_ar: "ذي فود إيز فيري ديليشس", pron_en: "The food iz ve-ry de-lish-us", ar: "الطعام لذيذ جداً" },
+                    { de: "A table for two, please", breakdown: "A = أداة نكرة | table = طاولة | for = لـ | two = اثنان | please = من فضلك", pron_ar: "أ تيبِل فور تو، بليز", pron_en: "A tey-ble for too, pleez", ar: "طاولة لشخصين، من فضلك" },
+                    { de: "What can you recommend?", breakdown: "What = ماذا | can = تستطيع | you = أنت | recommend = تنصح/توصي", pron_ar: "وات كان يو ريكوميند؟", pron_en: "What kan yoo re-ko-mend?", ar: "بماذا تنصح؟" },
+                    { de: "I am a vegetarian", breakdown: "I = أنا | am = أكون | vegetarian = نباتي", pron_ar: "آي أم أ فيجيتاريان", pron_en: "Ay am a ve-ge-tey-ree-an", ar: "أنا نباتي" },
+                    { de: "Keep the change", breakdown: "Keep = احتفظ بـ | the = الـ | change = الفكة/الباقي", pron_ar: "كيب ذي تشينج", pron_en: "Keep thee cheynj", ar: "احتفظ بالباقي (بقشيش)" },
+                    { de: "Do you have any more bread?", breakdown: "Do you have = هل لديكم | any more = المزيد من | bread = خبز", pron_ar: "دو يو هاف إني مور بريد؟", pron_en: "Doo yoo hav e-nee mor bred?", ar: "هل لديكم المزيد من الخبز؟" }
+                ]
+            },
+            "places": {
+                title: "الأماكن والتنزه 🏞️",
+                sentences: [
+                    { de: "Where is the park?", breakdown: "Where = أين | is = يكون | the = الـ | park = حديقة", pron_ar: "وير إيز ذي بارك؟", pron_en: "Wair iz thee park?", ar: "أين الحديقة؟" },
+                    { de: "We are going to the cinema", breakdown: "We = نحن | are going = ذاهبون | to the = إلى الـ | cinema = سينما", pron_ar: "وي آر جوينج تو ذي سينما", pron_en: "Wee are go-ing too thee ci-ne-ma", ar: "نحن ذاهبون إلى السينما" },
+                    { de: "Is the swimming pool open?", breakdown: "Is = هل يكون | the = الـ | swimming pool = حمام السباحة | open = مفتوح", pron_ar: "إيز ذي سويمينج بول اوبن؟", pron_en: "Iz thee swim-ming pool oh-pen?", ar: "هل حمام السباحة مفتوح؟" },
+                    { de: "Where is the nearest museum?", breakdown: "Where = أين | is = يكون | the = الـ | nearest = الأقرب | museum = متحف", pron_ar: "وير إيز ذي نيريست موزيوم؟", pron_en: "Wair iz thee neer-ist myoo-zee-um?", ar: "أين أقرب متحف؟" },
+                    { de: "How do I get to the station?", breakdown: "How = كيف | do I get = أصل أنا | to the = إلى الـ | station = المحطة", pron_ar: "هاو دو آي جيت تو ذي ستيشن؟", pron_en: "How doo ay get too thee stey-shon?", ar: "كيف أصل إلى المحطة؟" },
+                    { de: "Is the bank nearby?", breakdown: "Is = هل يكون | the = الـ | bank = بنك | nearby = قريب/بجوار", pron_ar: "إيز ذي بانك نيرباي؟", pron_en: "Iz thee bank neer-by?", ar: "هل البنك قريب؟" },
+                    { de: "The city center is beautiful", breakdown: "The = الـ | city center = وسط المدينة | is = يكون | beautiful = جميل", pron_ar: "ذي سيتي سينتر إيز بيوتيفول", pron_en: "The ci-ty cen-ter iz byoo-ti-ful", ar: "وسط المدينة جميل" }
+                ]
+            },
+            "education": {
+                title: "المدارس والتعليم 📚",
+                sentences: [
+                    { de: "I am learning English", breakdown: "I = أنا | am learning = أتعلم | English = الإنجليزية", pron_ar: "آي أم ليرنينج إنجليش", pron_en: "Ay am lair-ning Ing-lish", ar: "أنا أتعلم الإنجليزية" },
+                    { de: "Where is the university?", breakdown: "Where = أين | is = تكون | the = الـ | university = جامعة", pron_ar: "وير إيز ذي يونيفرسيتي؟", pron_en: "Wair iz thee oo-nee-ver-si-tee?", ar: "أين الجامعة؟" },
+                    { de: "I am doing my homework", breakdown: "I = أنا | am doing = أقوم بـ | my = لي | homework = الواجبات المنزلية", pron_ar: "آي أم دوينج ماي هومورك", pron_en: "Ay am doo-ing may home-werk", ar: "أنا أقوم بعمل واجباتي المدرسية" },
+                    { de: "The teacher explains the lesson", breakdown: "The = الـ | teacher = معلم | explains = يشرح | the = الـ | lesson = درس", pron_ar: "ذي تيشر إكسبلينز ذي ليسن", pron_en: "The tee-cher ex-pleynz thee les-son", ar: "المعلم يشرح الدرس" },
+                    { de: "The book is very interesting", breakdown: "The = الـ | book = كتاب | is = يكون | very = جداً | interesting = ممتع", pron_ar: "ذي بوك إيز فيري إنترستينج", pron_en: "The book iz ve-ry in-ter-es-ting", ar: "الكتاب ممتع جداً" },
+                    { de: "When does the class start?", breakdown: "When = متى | does the class start = يبدأ الدرس/الحصة", pron_ar: "وين دز ذي كلاس ستارت؟", pron_en: "Wen duz thee klas stahrt?", ar: "متى يبدأ الدرس؟" },
+                    { de: "I need a pen and paper", breakdown: "I = أنا | need = أحتاج | a pen = قلم | and = و | paper = ورق", pron_ar: "آي نيد أ بن أند بيبير", pron_en: "Ay need a pen and pey-per", ar: "أحتاج إلى قلم وورق" },
+                    { de: "The exam is tomorrow", breakdown: "The = الـ | exam = امتحان | is = يكون | tomorrow = غداً", pron_ar: "ذي إكزام إيز تومورو", pron_en: "The ex-am iz to-mor-roh", ar: "الامتحان غداً" },
+                    { de: "I have a question", breakdown: "I = أنا | have = عندي/لدي | a question = سؤال", pron_ar: "آي هاف أ كويستشن", pron_en: "Ay hav a kwes-chon", ar: "لدي سؤال" }
+                ]
+            },
+            "tech": {
+                title: "التقنية والبرمجة 💻",
+                sentences: [
+                    { de: "I am a programmer", breakdown: "I = أنا | am = أكون | a programmer = مبرمج", pron_ar: "آي أم أ بروجرامر", pron_en: "Ay am a pro-gram-mer", ar: "أنا مبرمج" },
+                    { de: "My computer is broken", breakdown: "My = لي | computer = حاسوب | is = يكون | broken = معطل", pron_ar: "ماي كمبيوتر إيز بروكن", pron_en: "May kom-pyoo-ter iz broh-ken", ar: "حاسوبي معطل" },
+                    { de: "I am writing code", breakdown: "I = أنا | am writing = أكتب | code = كود برمجي", pron_ar: "آي أم رايتينج كود", pron_en: "Ay am ry-ting kohd", ar: "أنا أكتب كوداً" },
+                    { de: "The website is not working", breakdown: "The = الـ | website = موقع إلكتروني | is not working = لا يعمل", pron_ar: "ذي ويبسايت إيز نوت وركينج", pron_en: "The vep-site iz not wer-king", ar: "الموقع الإلكتروني لا يعمل" },
+                    { de: "I need the WiFi password", breakdown: "I = أنا | need = أحتاج | the WiFi password = كلمة مرور الواي فاي", pron_ar: "آي نيد ذي وايفاي باسورد", pron_en: "Ay need thee Wy-fy pas-werd", ar: "أحتاج إلى كلمة مرور الواي فاي" },
+                    { de: "My battery is almost empty", breakdown: "My = لي | battery = بطارية | is almost empty = فارغة تقريباً", pron_ar: "ماي باتري إيز ألموست إمبتي", pron_en: "May bat-te-ree iz al-mohst emp-tee", ar: "بطاريتي فارغة تقريباً" },
+                    { de: "Where is the charger?", breakdown: "Where = أين | is = يكون | the charger = الشاحن", pron_ar: "وير إيز ذي تشارجر؟", pron_en: "Wair iz thee chahr-jer?", ar: "أين الشاحن؟" },
+                    { de: "I program with Dart and Flutter", breakdown: "I = أنا | program = أبرمج | with = بـ | Dart and Flutter = دارت وفلاتر", pron_ar: "آي بروجرام وِذ دارت أند فلاتر", pron_en: "Ay pro-gram with Dart and Flut-ter", ar: "أنا أبرمج باستخدام دارت وفلاتر" },
+                    { de: "The code has an error", breakdown: "The = الـ | code = كود | has an error = يحتوي على خطأ/به خطأ", pron_ar: "ذي كود هاز أن إيرور", pron_en: "The kohd haz an er-rer", ar: "الكود يحتوي على خطأ" }
+                ]
+            }
+        };
+
+        const conversation = {
+            tech_summit: { 
+                title: "💻 قِمَّةُ التِّكْنُولُوجْيَا وَالذَّكَاءِ الاصْطِنَاعِيِّ", 
+                items: [
+                    { 
+                        speaker: "Satya", 
+                        us: "We are integrating quantum computing into our cloud infrastructure.", 
+                        uk: "We are integrating quantum computing into our cloud infrastructure.", 
+                        ar: "نَحْنُ نَقُومُ بِدَمْجِ الْحَوْسَبَةِ الْكَمِّيَّةِ فِي بِنْيَتِنَا التَّحْتِيَّةِ السَّحَابِيَّةِ.",
+                        pAr_us: "وِيْ آرْ إِنْتِغْرِيتِنْغْ كْوَانْتَمْ كَمْبْيُوتِنْغْ إِنْتُو أَوْرْ كْلَاوْدْ إِنْفْرَاسْتْرَكْتْشِرْ",
+                        pEn_us: "Wee ar in-te-grey-ting kwan-tam kam-byoo-ting in-tu owr klawd in-fra-strak-cher"
+                    },
+                    { 
+                        speaker: "Sundar", 
+                        us: "That sounds promising, we are focusing on advanced machine learning models.", 
+                        uk: "That sounds promising, we are focusing on advanced machine learning models.", 
+                        ar: "هَذَا يَبْدُو وَاعِدًا، نَحْنُ نُرَكِّزُ عَلَى نَمَاذِجِ تَعَلُّمِ الآلَةِ الْمُتَقَدِّمَةِ.",
+                        pAr_us: "ذَاتْ سَاوْنْدْزْ بْرُومِسِنْغْ، وِيْ آرْ فُوكَسِنْغْ أُوْنْ أَدْوَانْسْتْ مَشِينْ لِرْنِنْغْ مُودِلْزْ",
+                        pEn_us: "That sawndz pro-mi-sing, wee ar fo-ka-sing on ad-vanst ma-sheen ler-ning mo-delz"
+                    }
+                ]
+            },
+            business_meeting: { 
+                title: "💼 اجْتِمَاعُ مَجْلِسِ الإِدَارَةِ وَالتَّطْوِيرِ", 
+                items: [
+                    { 
+                        speaker: "Jeff", 
+                        us: "We need to scale our logistics and improve delivery speed.", 
+                        uk: "We need to scale our logistics and improve delivery speed.", 
+                        ar: "نَحْنُ بِحَاجَةٍ إِلَى تَوْسِيعِ عَمَلِيَّاتِنَا اللُّوجِسْتِيَّةِ وَتَحْسِينِ سُرْعَةِ التَّوْصِيلِ.",
+                        pAr_us: "وِيْ نِيدْ تُو سْكِيلْ أَوْرْ لُوجِسْتِكْسْ أَنْدْ اِمْبْرُوفْ دِلِيفَرِي سْبِيدْ",
+                        pEn_us: "Wee need tu skeyl owr lo-jis-tiks and im-proov de-li-ve-ree speed"
+                    }
+                ]
+            }
+        };
+
+        /* =========================================
+           تحميل الكلمات المضافة من المستخدم (localStorage)
+           ========================================= */
+        function loadCustomWords() {
+            let customWords = JSON.parse(localStorage.getItem('englishAppCustomWords')) || [];
+            customWords.forEach(custom => {
+                if(data[custom.category]) {
+                    data[custom.category].sentences.push(custom.wordData);
+                }
+            });
+        }
+        loadCustomWords();
+
+        /* =========================================
+           بناء الأقسام وتحديث العدادات
+           ========================================= */
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            let categoriesHtml = '';
+            let globalTotal = 0;
+
+            for (let key in data) {
+                let categoryCount = data[key].sentences.length;
+                globalTotal += categoryCount;
+
+                categoriesHtml += `
+                    <div class="card" onclick="openModal('${key}')">
+                        <h3>${data[key].title}</h3>
+                        <p>عرض الجمل 🚀</p>
+                        <div class="category-count-badge">📚 ${categoryCount} جملة</div>
+                    </div>`;
+            }
+            container.innerHTML = categoriesHtml;
+            document.getElementById('global-count').innerText = globalTotal;
+        }
+
+        renderCategories();
+
+        /* =========================================
+           التحكم في النافذة المنبثقة (Modal) لعرض الجمل
+           ========================================= */
+        const modal = document.getElementById('sentences-modal');
+        
+        function openModal(categoryKey) {
+            const category = data[categoryKey];
+            document.getElementById('modal-title').textContent = category.title; 
+            
+            let html = '';
+            category.sentences.forEach(item => {
+                let safeText = item.de.replace(/'/g, "\\'");
+                
+                let breakdownHtml = item.breakdown ? `
+                    <div class="breakdown-group">
+                        <span>🧩 تفكيك:</span> ${item.breakdown}
+                    </div>
+                ` : '';
+
+                html += `
+                    <div class="sentence-item">
+                        <div class="sentence-text-container">
+                            <div class="english-title-text">${item.de}</div>
+                            ${breakdownHtml}
+                            <div class="pronunciation-group">
+                                <span class="pronunciation-ar">🗣️ النطق: ${item.pron_ar || 'متاح صوتياً'}</span>
+                                <span class="pronunciation-en">| Phonetics: ${item.pron_en || 'Available'}</span>
+                            </div>
+                            <div class="translation-group">
+                                <span class="arabic-text">🇪🇬 ${item.ar}</span>
+                            </div>
+                        </div>
+                        <button class="speak-btn" onclick="speakText('${safeText}')">🔊</button>
+                    </div>
+                `;
+            });
+            document.getElementById('sentences-list').innerHTML = html; 
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            if('speechSynthesis' in window) window.speechSynthesis.cancel();
+        }
+
+        /* =========================================
+           نظام إضافة الكلمات (Form)
+           ========================================= */
+        const addWordModal = document.getElementById('add-word-modal');
+        
+        function openAddWordModal() {
+            const selectCategory = document.getElementById('new-category');
+            selectCategory.innerHTML = '<option value="" disabled selected>اختر القسم المناسب...</option>';
+            for (let key in data) {
+                selectCategory.innerHTML += `<option value="${key}">${data[key].title}</option>`;
+            }
+            addWordModal.style.display = 'flex';
+        }
+
+        function closeAddWordModal() {
+            addWordModal.style.display = 'none';
+        }
+
+        function submitNewWord(event) {
+            event.preventDefault(); 
+            
+            let category = document.getElementById('new-category').value;
+            let wordData = {
+                de: document.getElementById('new-de').value,
+                breakdown: document.getElementById('new-breakdown').value,
+                pron_ar: document.getElementById('new-pron-ar').value,
+                pron_en: document.getElementById('new-pron-en').value,
+                ar: document.getElementById('new-ar').value
+            };
+
+            data[category].sentences.push(wordData);
+            renderCategories();
+            allSentences.push(wordData);
+
+            let customWords = JSON.parse(localStorage.getItem('englishAppCustomWords')) || [];
+            customWords.push({ category: category, wordData: wordData });
+            localStorage.setItem('englishAppCustomWords', JSON.stringify(customWords));
+
+            document.getElementById('add-word-form').reset();
+            closeAddWordModal();
+            
+            alert("عاش جداً! 👏 تمت إضافة جملتك بنجاح.");
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+            if (event.target == addWordModal) closeAddWordModal();
+        }
+
+        /* =========================================
+           نظام الامتحان (التحدي)
+           ========================================= */
+        let allSentences = [];
+        for (let key in data) {
+            allSentences = allSentences.concat(data[key].sentences);
+        }
+
+        const TOTAL_QUESTIONS = 50; 
+        let currentQuestionNumber = 0;
+        let sessionScore = 0;
+        let currentCorrectAnswer = null;
+        
+        let globalScore = parseInt(localStorage.getItem('englishAppScore')) || 0;
+        document.getElementById('score-display').textContent = globalScore;
+
+        function startQuizSession() {
+            if (allSentences.length < 3) return;
+            currentQuestionNumber = 0;
+            sessionScore = 0;
+            document.getElementById('quiz-progress-container').style.display = 'block';
+            loadNextQuestion();
+        }
+
+        function loadNextQuestion() {
+            if (currentQuestionNumber >= TOTAL_QUESTIONS) {
+                endQuizSession();
+                return;
+            }
+
+            currentQuestionNumber++;
+            
+            let progressPercent = ((currentQuestionNumber - 1) / TOTAL_QUESTIONS) * 100;
+            document.getElementById('quiz-progress-fill').style.width = `${progressPercent}%`;
+
+            let correctIndex = Math.floor(Math.random() * allSentences.length);
+            let correctSentence = allSentences[correctIndex];
+            currentCorrectAnswer = correctSentence.de;
+
+            let wrong1, wrong2;
+            do { wrong1 = allSentences[Math.floor(Math.random() * allSentences.length)]; } while (wrong1.de === correctSentence.de);
+            do { wrong2 = allSentences[Math.floor(Math.random() * allSentences.length)]; } while (wrong2.de === correctSentence.de || wrong2.de === wrong1.de);
+
+            let options = [correctSentence, wrong1, wrong2].sort(() => Math.random() - 0.5);
+
+            document.getElementById('quiz-feedback').innerHTML = '';
+            document.getElementById('next-btn-container').innerHTML = '';
+            
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="question-counter">السؤال ${currentQuestionNumber} من ${TOTAL_QUESTIONS}</div>
+                <div class="quiz-question">كيف تقول بالإنجليزية: <span>"${correctSentence.ar}"</span></div>
+            `;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.dataset.answer = opt.de; 
+                
+                let textSpan = document.createElement('span');
+                textSpan.textContent = opt.de; 
+                
+                let audioBtn = document.createElement('button');
+                audioBtn.className = 'inline-audio-btn';
+                audioBtn.textContent = '🔊';
+                audioBtn.onclick = (e) => {
+                    e.stopPropagation(); 
+                    speakText(opt.de);
+                };
+
+                btn.appendChild(textSpan);
+                btn.appendChild(audioBtn);
+                
+                btn.onclick = () => checkAnswer(btn, opt.de);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(buttonElement, selectedAnswer) {
+            let allButtons = document.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => btn.disabled = true);
+
+            let feedback = document.getElementById('quiz-feedback');
+            
+            if (selectedAnswer === currentCorrectAnswer) {
+                buttonElement.classList.add('correct-answer');
+                feedback.innerHTML = '<div style="color: var(--success); font-weight:bold; margin-top:10px;">إجابة صحيحة! 👏</div>';
+                sessionScore++;
+                globalScore++;
+                localStorage.setItem('englishAppScore', globalScore);
+                document.getElementById('score-display').textContent = globalScore;
+                speakText(currentCorrectAnswer); 
+            } else {
+                buttonElement.classList.add('wrong-answer');
+                feedback.innerHTML = `<div style="color: var(--danger); font-weight:bold; margin-top:10px;">إجابة خاطئة! الإجابة الصحيحة هي: <br><strong>${currentCorrectAnswer}</strong></div>`;
+                
+                allButtons.forEach(btn => {
+                    if(btn.dataset.answer === currentCorrectAnswer) { 
+                        btn.classList.add('correct-answer');
+                    }
+                });
+            }
+
+            document.getElementById('next-btn-container').innerHTML = `
+                <button class="quiz-btn" onclick="loadNextQuestion()">السؤال التالي ➡️</button>
+            `;
+        }
+
+        function endQuizSession() {
+            document.getElementById('quiz-progress-fill').style.width = '100%';
+            document.getElementById('quiz-options').innerHTML = '';
+            document.getElementById('quiz-feedback').innerHTML = '';
+            document.getElementById('next-btn-container').innerHTML = '';
+            
+            let message = sessionScore >= (TOTAL_QUESTIONS * 0.8) ? "أداء أسطوري! أنت بطل حقيقي 🏆" : "استمر في التدريب، هتبقى أحسن! 💪";
+
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="quiz-question" style="font-size: 2em; color: var(--gold);">انتهى التحدي! 🎉</div>
+                <p style="font-size: 1.5em; font-weight: bold; margin: 10px 0;">نتيجتك: ${sessionScore} / ${TOTAL_QUESTIONS}</p>
+                <p style="font-size: 1.2em; color: var(--text-muted); margin-bottom:15px;">${message}</p>
+                <button class="quiz-btn" onclick="startQuizSession()">إعادة التحدي 🔄</button>
+            `;
+        }
+    </script>
+</body>
+</html>
