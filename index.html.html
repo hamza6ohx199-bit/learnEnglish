@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الذكية لتعلم الإنجليزية Pro</title>
+    <title>برنامج تعلم الإنجليزية</title>
     <style>
         /* ==========================================================================
-           1. المتغيرات والألوان العصرية والتفاعلية (CSS Variables)
+           1. اسْتِيرَادُ الْخُطُوطِ وَالْمُتَغَيِّرَاتِ الدِّينَامِيكِيَّةِ (Fonts & Variables)
            ========================================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
         :root {
-            --primary: #3b82f6; /* اللون الأساسي، سيتغير ديناميكياً */
+            --primary: #2563eb; 
             --dark: #0f172a;
-            --text-main: #1e293b;
-            --text-muted: #475569;
-            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            --white-glass: rgba(255, 255, 255, 0.7);
-            --modal-glass: rgba(15, 23, 42, 0.85);
+            --dark-card: #1e293b;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-gradient: radial-gradient(circle at top left, #f8fafc 0%, #e2e8f0 100%);
+            --white-glass: rgba(255, 255, 255, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.6);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
-            --gold: #ffd700;
+            --gold: #f59e0b;
             --us-color: #2563eb;
-            --us-bg: rgba(37, 99, 235, 0.05);
-            --us-border: rgba(37, 99, 235, 0.15);
             --uk-color: #dc2626;
-            --uk-bg: rgba(220, 38, 38, 0.05);
-            --uk-border: rgba(220, 38, 38, 0.15);
         }
 
         /* ==========================================================================
-           2. الإعدادات الأساسية والتصفير (Reset & Typography)
+           2. الْإِعْدَادَاتُ الْأَسَاسِيَّةُ وَتَصْفِيرُ الْهَيْكَلِ (Reset & Base)
            ========================================================================== */
         * { 
             box-sizing: border-box; 
@@ -38,7 +40,7 @@
         }
 
         body { 
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif; 
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif; 
             background: var(--bg-gradient); 
             color: var(--text-main);
             min-height: 100vh;
@@ -48,785 +50,185 @@
             scroll-behavior: smooth;
         }
 
-        /* تخصيص شريط التمرير (Scrollbar) */
+        /* تَخْصِيصُ شَرِيطِ التَّمْرِيرِ (Scrollbar) */
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
             background: #f1f5f9; 
         }
         ::-webkit-scrollbar-thumb {
             background: var(--primary); 
-            border-radius: 10px;
-            border: 3px solid #f1f5f9;
+            border-radius: 20px;
+            border: 2px solid #f1f5f9;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: var(--dark); 
         }
 
-        /* ==========================================================================
-           3. الحركات والتأثيرات (Keyframes & Animations)
-           ========================================================================== */
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.5); }
-            70% { box-shadow: 0 0 0 20px rgba(var(--primary-rgb), 0); }
-            100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); }
+        .dual-flag-bar {
+            height: 12px;
+            width: 100%;
+            background: linear-gradient(to right, var(--us-color) 0%, var(--us-color) 45%, #ffffff 45%, #ffffff 55%, var(--uk-color) 55%, var(--uk-color) 100%);
+            box-shadow: var(--shadow-sm);
         }
 
         /* ==========================================================================
-           4. الهيدر والعداد الزجاجي (Header & Glass Counter)
+           3. الْهَيْدَرُ الزُّجَاجِيُّ وَالْعَدَّادَاتُ (Glass Header & Counters)
            ========================================================================== */
         header { 
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(25px);
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             text-align: center; 
-            padding: 50px 20px 30px; 
-            border-bottom: 1px solid rgba(255,255,255,0.7);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            padding: 35px 20px; 
+            border-bottom: 1px solid var(--border-glass);
             position: relative;
             z-index: 10;
         }
         
-        h1 { 
-            color: var(--dark);
-            font-size: 3.2em; 
-            font-weight: 900; 
-            letter-spacing: -1px;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .global-counter-glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            padding: 15px 35px;
-            border-radius: 50px;
-            display: inline-block;
-            margin: 15px auto;
-            font-weight: 800;
-            font-size: 1.3em;
-            color: var(--dark);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
-        
-        .global-counter-glass:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
-        }
-
-        .global-counter-glass span {
-            color: var(--primary);
-            font-size: 1.5em;
-            margin: 0 8px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        /* ==========================================================================
-           5. شريط اللكنات بأعلام الدول (Accent Selector)
-           ========================================================================== */
-        .accent-selector {
-            margin: 25px auto 0; 
-            display: inline-flex; 
-            gap: 20px;
-            background: rgba(255, 255, 255, 0.6); 
-            padding: 12px; 
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: inset 0 3px 10px rgba(0,0,0,0.04);
-        }
-
-        .accent-btn {
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            background: transparent; 
-            border: none;
-            padding: 12px 30px; 
-            border-radius: 40px; 
-            font-size: 1.2em; 
-            font-weight: 800; 
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            color: var(--text-muted);
-        }
-
-        .accent-btn img { 
-            width: 40px; 
-            height: 40px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 3px solid white; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-            transition: 0.4s;
-        }
-        
-        /* تأثيرات الأعلام عند التفعيل */
-        .accent-btn#btn-us.active { 
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); 
-            color: white; 
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); 
-            transform: translateY(-4px); 
-        }
-
-        .accent-btn#btn-uk.active { 
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); 
-            color: white; 
-            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4); 
-            transform: translateY(-4px); 
-        }
-
-        /* ==========================================================================
-           6. شريط التنقل (Navigation Bar)
-           ========================================================================== */
-        .nav-bar {
-            background: var(--dark);
-            padding: 18px; 
-            display: flex; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-            gap: 20px;
-            position: sticky; 
-            top: 0; 
-            z-index: 100;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-        }
-
-        .nav-btn {
-            background: rgba(255,255,255,0.08); 
-            color: #e2e8f0; 
-            border: 1px solid transparent;
-            padding: 14px 30px; 
-            border-radius: 35px; 
-            font-size: 1.1em; 
-            font-weight: 700;
-            cursor: pointer; 
-            transition: all 0.3s;
-        }
-
-        .nav-btn:hover { 
-            background: rgba(255,255,255,0.15); 
-            color: white; 
-            transform: translateY(-2px);
-        }
-
-        .nav-btn.active { 
-            background: var(--primary); 
-            color: white; 
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3); 
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        /* ==========================================================================
-           7. الكروت والأقسام (Cards & Grid)
-           ========================================================================== */
-        .container { 
-            max-width: 1300px; 
-            margin: 60px auto; 
-            padding: 0 20px; 
-            flex: 1; 
-        }
-
-        .section-header { 
-            text-align: center; 
-            margin-bottom: 50px; 
-        }
-
-        .section-header h2 { 
-            font-size: 2.5em; 
+        header h1 { 
             color: var(--dark); 
-            font-weight: 900; 
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 5px;
-            background: var(--primary);
-            bottom: -15px;
-            left: 25%;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .grid-layout { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 35px; 
-        }
-
-        .card { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(15px);
-            padding: 40px 30px; 
-            border-radius: 28px; 
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.9); 
-            border-bottom: 8px solid var(--primary);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-            cursor: pointer; 
-            transition: all 0.4s ease;
-            animation: fadeInUp 0.6s ease-out backwards;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card:hover { 
-            transform: translateY(-12px); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.12); 
-            background: white; 
-        }
-
-        .card h3 { 
-            font-size: 1.6em; 
-            color: var(--dark); 
-            margin-bottom: 18px; 
-            font-weight: 900; 
-        }
-
-        .badge { 
-            background: #f1f5f9; 
-            color: var(--primary); 
-            padding: 10px 25px; 
-            border-radius: 25px; 
-            font-weight: 900; 
-            font-size: 1em; 
-            display: inline-block; 
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
-        }
-
-        /* ==========================================================================
-           8. النافذة المنبثقة (Modal & Glass Design)
-           ========================================================================== */
-        .modal { 
-            display: none; 
-            position: fixed; 
-            inset: 0; 
-            background: var(--modal-glass); 
-            backdrop-filter: blur(15px); 
-            z-index: 1000; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 30px; 
-        }
-
-        .modal-content { 
-            background: linear-gradient(145deg, rgba(255,255,255,0.98) 0%, rgba(241,245,249,0.98) 100%); 
-            backdrop-filter: blur(25px);
-            width: 100%; 
-            max-width: 1100px; 
-            max-height: 85vh; 
-            border-radius: 35px; 
-            overflow-y: auto; 
-            padding: 50px; 
-            position: relative; 
-            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.4); 
-            border-top: 10px solid var(--primary);
-        }
-
-        .close-btn { 
-            position: absolute; 
-            top: 25px; 
-            left: 30px; 
-            font-size: 2.2em; 
-            cursor: pointer; 
-            color: #94a3b8; 
-            background: white; 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: 0.3s; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+            font-size: 2.6em; 
+            font-weight: 900;
+            letter-spacing: -0.5px;
         }
         
-        .close-btn:hover { 
-            background: var(--danger); 
-            color: white; 
-            transform: rotate(90deg);
-        }
-
-        .total-counter-badge { 
-            background: var(--dark); 
-            color: white; 
-            padding: 8px 22px; 
-            border-radius: 25px; 
-            font-size: 0.55em; 
-            vertical-align: middle; 
-            margin-right: 20px; 
-            display: inline-block; 
-            font-weight: 900; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* ==========================================================================
-           9. تصميم محتوى المودال (Lists, Grammar, Chat)
-           ========================================================================== */
-        .list-item { 
-            background: rgba(255, 255, 255, 0.8); 
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 1); 
-            padding: 30px; 
-            border-radius: 25px; 
-            margin-bottom: 25px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            gap: 25px; 
-            border-right: 8px solid var(--primary); 
-            transition: all 0.3s ease; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
-        }
-
-        .list-item:hover { 
-            background: white; 
-            transform: translateX(-8px); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
-        }
-        
-        .num-circle { 
-            background: var(--primary); 
-            color: white; 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 1.4em; 
-            font-weight: 900; 
-            flex-shrink: 0; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-        }
-        
-        .content-wrap { 
-            flex-grow: 1; 
-        }
-
-        .eng-text { 
-            font-size: 1.6em; 
-            font-weight: 900; 
-            color: var(--dark); 
-            direction: ltr; 
-            text-align: left; 
-            margin-bottom: 12px; 
-            line-height: 1.5; 
-        }
-
-        .ar-text { 
-            font-size: 1.2em; 
+        header p { 
+            font-size: 1.15em; 
             color: var(--text-muted); 
-            font-weight: 700; 
-            line-height: 1.6; 
-        }
-        
-        /* المحادثات */
-        .chat-layout { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 25px; 
+            margin-top: 8px;
+            font-weight: 500;
         }
 
-        .chat-bubble { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(15px);
-            padding: 30px; 
-            border-radius: 25px; 
-            border: 1px solid #e2e8f0; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            gap: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03); 
-            border-right: 5px solid var(--primary);
-            transition: 0.3s;
-        }
-
-        .chat-bubble:hover {
-            background: white;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-        }
-
-        .speaker-tag { 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px; 
-            background: var(--dark); 
-            color: white; 
-            padding: 8px 18px; 
-            border-radius: 15px; 
-            font-size: 1.05em; 
-            font-weight: 900; 
-            margin-bottom: 15px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        
-        /* زر الصوت */
-        .sound-icon { 
-            background: #f8fafc; 
-            color: var(--primary); 
-            border: 2px solid #e2e8f0; 
-            width: 65px; 
-            height: 65px; 
-            border-radius: 50%; 
-            font-size: 1.8em; 
-            cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            flex-shrink: 0; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sound-icon:hover { 
-            background: var(--primary); 
-            color: white; 
-            transform: scale(1.15) rotate(-5deg); 
-            border-color: var(--primary);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25); 
-        }
-        
-        /* تاجات القواعد النحوية المطولة */
-        .grammar-tag { 
-            background: rgba(245, 158, 11, 0.1); 
-            color: #b45309; 
-            padding: 18px 25px; 
-            border-radius: 18px; 
-            font-size: 1.1em; 
-            font-weight: 800; 
-            margin-bottom: 20px; 
-            display: block; 
-            border: 2px dashed #fcd34d; 
-            line-height: 1.8; 
-        }
-
-        /* ==========================================================================
-           10. الفوتر الزجاجي الذهبي (Golden Glass Footer)
-           ========================================================================== */
-        footer { 
-            background: rgba(15, 23, 42, 0.9); 
-            backdrop-filter: blur(25px);
-            text-align: center; 
-            padding: 35px; 
-            margin-top: auto; 
-            border-top: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .made-by-gold {
-            color: #94a3b8;
-            font-size: 1.1em;
-            font-weight: 600;
-            letter-spacing: 1px;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            transition: 0.3s;
-            cursor: default;
-        }
-
-        .made-by-gold:hover {
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.4);
-            transform: scale(1.05);
-        }
-        /* ==========================================================================
-           11. التصميم المتجاوب (Responsive Design) للهواتف والتابلت
-           ========================================================================== */
-        @media screen and (max-width: 768px) {
-            /* تصغير حجم الهيدر والعنوان الرئيسي ليناسب الشاشات الصغيرة */
-            header {
-                padding: 30px 15px 15px;
-            }
-            header h1 {
-                font-size: 2em;
-            }
-
-            /* تعديل حجم العداد الزجاجي */
-            .global-counter-glass {
-                font-size: 1em;
-                padding: 10px 20px;
-            }
-            .global-counter-glass span {
-                font-size: 1.2em;
-            }
-
-            /* شريط اختيار اللكنات ليصبح عمودياً في الهواتف */
-            .accent-selector {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
-                border-radius: 25px;
-            }
-            .accent-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 10px 15px;
-            }
-
-            /* تعديل شريط التنقل ليناسب عرض الهاتف */
-            .nav-bar {
-                padding: 10px;
-                gap: 10px;
-            }
-            .nav-btn {
-                width: 100%;
-                font-size: 1em;
-                padding: 10px;
-            }
-
-            /* تعديل الكروت لتأخذ عرض الشاشة بالكامل في الهواتف */
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-
-            /* تعديل النافذة المنبثقة (المودال) لتقليل الهوامش */
-            .modal {
-                padding: 10px;
-            }
-            .modal-content {
-                padding: 35px 15px 20px;
-                border-radius: 20px;
-            }
-
-            /* تصغير زر الإغلاق وضبط مكانه */
-            .close-btn {
-                top: 10px;
-                left: 10px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.8em;
-            }
-
-            /* تعديل شكل عناصر الجمل والمحادثات لتصبح عمودية في الشاشات الضيقة */
-            .list-item, .chat-bubble {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 15px;
-                padding: 20px 15px;
-            }
-
-            /* ضبط أحجام النصوص لتكون مقروءة على التليفون */
-            .eng-text {
-                font-size: 1.3em;
-                text-align: center;
-            }
-            .ar-text {
-                font-size: 1em;
-            }
-
-            /* تصغير التاج الخاص بالقواعد والشخصيات */
-            .speaker-tag, .grammar-tag {
-                font-size: 0.9em;
-                margin: 0 auto 10px auto;
-                text-align: center;
-            }
-        }
-
-        /* تعديلات إضافية للشاشات الصغيرة جداً */
-        @media screen and (max-width: 480px) {
-            .section-header h2 {
-                font-size: 1.8em;
-            }
-            .made-by-gold {
-                font-size: 1.3em;
-            }
-        }
-
-        /* صناديق اللكنات للمقارنة */
-        .comparison-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .accent-block {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 22px;
-            border-radius: 18px;
-            border: 2px solid #e2e8f0;
-            background: rgba(255, 255, 255, 0.6);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            gap: 15px;
-        }
-
-        .accent-block .flag-icon {
-            font-size: 1.5em;
-            flex-shrink: 0;
-        }
-
-        .accent-block .accent-text-wrap {
-            flex-grow: 1;
-            text-align: left;
-            direction: ltr;
-        }
-
-        .accent-block .accent-label {
-            font-size: 0.75em;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        .accent-block.us {
-            --accent-main: var(--us-color);
-            --accent-bg: var(--us-bg);
-            --accent-border: var(--us-border);
-        }
-
-        .accent-block.uk {
-            --accent-main: var(--uk-color);
-            --accent-bg: var(--uk-bg);
-            --accent-border: var(--uk-border);
-        }
-
-        /* حالة التفعيل والتعطيل */
-        .accent-block.active {
-            border-color: var(--accent-main);
-            background: var(--accent-bg);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        
-        .accent-block.active .accent-label {
-            color: var(--accent-main);
-        }
-
-        .accent-block.active .eng-text {
+        .total-counter-badge {
+            background: var(--white-glass);
+            border: 1px solid var(--border-glass);
+            padding: 12px 28px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 18px auto 0 auto;
+            font-weight: 700;
+            font-size: 1.15em;
             color: var(--dark);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .total-counter-badge:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .total-counter-badge span {
+            color: var(--primary);
+            font-size: 1.3em;
+            margin: 0 4px;
             font-weight: 900;
         }
 
-        .accent-block.inactive {
-            opacity: 0.45;
-            border-color: #f1f5f9;
-            background: rgba(248, 250, 252, 0.3);
-            filter: grayscale(40%);
+        .container { 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            flex-grow: 1;
         }
 
-        .accent-block.inactive:hover {
-            opacity: 0.75;
-            filter: grayscale(0%);
+        .section-title {
+            font-size: 1.8em;
+            color: var(--dark);
+            margin-bottom: 20px;
         }
 
-        .accent-block.inactive .accent-label {
-            color: #94a3b8;
+        /* ==========================================================================
+           4. كُرُوتُ الْأَقْسَامِ الرَّئِيسِيَّةِ (Modern Categories)
+           ========================================================================== */
+        .categories { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; 
         }
-
-        .accent-block.inactive .eng-text {
-            color: var(--text-muted);
+        
+        .card { 
+            background: var(--white-glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 35px 25px; 
+            border-radius: 24px; 
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-glass);
+            border-top: 6px solid var(--primary);
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg);
+            background: #ffffff;
+        }
+        
+        .card h3 { 
+            color: var(--dark); 
+            margin-bottom: 12px; 
+            font-size: 1.45em; 
             font-weight: 700;
         }
 
-        /* تخصيص زر الصوت لكل فئة */
-        .accent-block .sound-icon-small {
-            background: white;
-            color: var(--text-muted);
-            border: 2px solid #e2e8f0;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.3em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+        .category-count-badge {
+            background-color: rgba(241, 245, 249, 0.8);
+            color: var(--primary);
+            font-size: 0.9em;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 10px;
         }
 
-        .accent-block.active .sound-icon-small {
-            color: white;
-            background: var(--accent-main);
-            border-color: var(--accent-main);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .accent-block.active .sound-icon-small:hover {
-            transform: scale(1.1) rotate(-5deg);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-        }
-
-        .accent-block.inactive .sound-icon-small {
-            cursor: pointer;
-        }
-
-        .accent-block.inactive .sound-icon-small:hover {
-            border-color: #cbd5e1;
-            color: var(--dark);
-            transform: scale(1.05);
-        }
-
-        /* =========================================
-           تنسيق هيكل العلم الثنائي
-           ========================================= */
-        .dual-flag-bar {
-            height: 15px;
-            width: 100%;
-            background: linear-gradient(to right, var(--us-color) 0%, var(--us-color) 45%, #ffffff 45%, #ffffff 55%, var(--uk-color) 55%, var(--uk-color) 100%);
-        }
-
-        /* =========================================
-           تنسيق قسم الامتحان والإنجاز
-           ========================================= */
+        /* ==========================================================================
+           5. الْإِمْتِحَانَاتُ وَالتَّحَدِّيَّاتُ (Quiz UI)
+           ========================================================================== */
         .progress-card {
             background: var(--dark);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 24px;
+            border-radius: 20px;
             text-align: center;
             max-width: 400px;
-            margin: 0 auto 40px auto;
-            border-bottom: 5px solid var(--primary);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin: 0 auto 30px auto;
+            border-bottom: 5px solid var(--gold);
+            box-shadow: var(--shadow-md);
         }
 
         .progress-score {
-            font-size: 3em;
+            font-size: 2.8em;
             color: var(--gold);
-            font-weight: bold;
-            margin: 10px 0;
+            font-weight: 900;
+            margin-top: 5px;
         }
 
         .quiz-container {
-            background: white;
+            background: #ffffff;
             padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            text-align: center;
-            max-width: 700px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            max-width: 750px;
             margin: 0 auto;
-            border-top: 5px solid var(--primary);
+            border: 1px solid var(--border-glass);
+            border-top: 6px solid var(--primary);
         }
 
         .progress-bar-container {
             width: 100%;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            height: 12px;
+            background-color: #f1f5f9;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            height: 10px;
             overflow: hidden;
         }
 
@@ -834,1315 +236,732 @@
             height: 100%;
             background-color: var(--primary);
             width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .question-counter {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 15px;
-            font-weight: bold;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .quiz-question {
-            font-size: 1.55em;
+            font-size: 1.4em;
             color: var(--dark);
-            margin-bottom: 20px;
-            font-weight: 800;
+            font-weight: 700;
             line-height: 1.6;
         }
-
-        .quiz-options { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-
-        .quiz-btn {
-            background-color: var(--dark); color: white; border: none;
-            padding: 15px 30px; border-radius: 10px; font-size: 1.2em; cursor: pointer;
-            transition: 0.3s; font-weight: bold; margin-top: 20px; display: inline-block;
+        .quiz-question span {
+            color: var(--primary);
+            display: block;
+            margin-top: 5px;
         }
 
-        .quiz-btn:hover { background-color: var(--primary); }
+        .quiz-options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-top: 25px; 
+        }
 
         .option-btn {
-            background-color: #f8fafc; color: var(--dark); border: 2px solid #e2e8f0;
-            padding: 15px; border-radius: 10px; font-size: 1.3em; cursor: pointer;
-            transition: 0.3s; font-weight: bold; display: flex; justify-content: space-between; align-items: center;
+            background-color: #f8fafc; 
+            color: var(--dark); 
+            border: 1px solid #e2e8f0;
+            padding: 16px; 
+            border-radius: 14px; 
+            font-size: 1.15em; 
+            cursor: pointer;
+            transition: all 0.2s ease; 
+            font-weight: 700; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            width: 100%;
+            text-align: right;
         }
 
-        .option-btn:hover:not(:disabled) { border-color: var(--primary); background-color: rgba(37, 99, 235, 0.05); }
-        .option-btn:disabled { cursor: not-allowed; opacity: 0.9; }
-        .correct-answer { background-color: #d4edda !important; border-color: var(--success) !important; color: #155724 !important; }
-        .wrong-answer { background-color: #f8d7da !important; border-color: var(--danger) !important; color: #721c24 !important; }
+        .option-btn:hover:not(:disabled) { 
+            border-color: var(--primary); 
+            background-color: #ffffff;
+            transform: scale(1.01);
+        }
+        
+        .correct-answer { background-color: #ecfdf5 !important; border-color: var(--success) !important; color: #065f46 !important; }
+        .wrong-answer { background-color: #fef2f2 !important; border-color: var(--danger) !important; color: #991b1b !important; }
 
-        /* نموذج إضافة الكلمات */
-        .form-group { margin-bottom: 15px; text-align: right; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--text-dark); }
+        .quiz-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 15px;
+        }
+        .quiz-btn:hover {
+            background: var(--dark);
+        }
+
+        .inline-audio-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .question-counter {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* ==========================================================================
+           6. النَّافِذَةُ الْمُنْبَثِقَةُ وَأَسْطُرُ النُّطْقِ الْمَكْتُوبِ (Modal & Sentences)
+           ========================================================================== */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-content { 
+            background: #ffffff; 
+            width: 100%; 
+            max-width: 850px; 
+            padding: 40px 30px; 
+            border-radius: 28px; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+            position: relative;
+            border-top: 8px solid var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .close-btn { 
+            position: absolute; 
+            top: 20px; 
+            left: 25px; 
+            font-size: 30px; 
+            cursor: pointer; 
+            color: var(--text-muted); 
+            transition: all 0.2s ease;
+        }
+        
+        .close-btn:hover { 
+            color: var(--danger); 
+            transform: rotate(90deg);
+        }
+        
+        .sentence-item { 
+            padding: 25px; 
+            border: 1px solid #e2e8f0; 
+            background-color: #f8fafc;
+            margin-bottom: 25px; 
+            border-radius: 20px; 
+            border-right: 6px solid var(--primary);
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sentence-text-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .english-title-text { 
+            font-weight: 700; 
+            font-size: 1.55em; 
+            direction: ltr; 
+            text-align: left; 
+            color: var(--dark); 
+            line-height: 1.4;
+        }
+
+        .breakdown-group, .pronunciation-group, .translation-group {
+            text-align: right;
+            font-size: 1.05em;
+        }
+        .breakdown-group span { font-weight: bold; color: var(--warning); }
+        .pronunciation-ar { color: #166534; font-weight: bold; }
+        .pronunciation-en { color: #3730a3; font-weight: bold; direction: ltr; display: inline-block; }
+        .arabic-text { color: var(--dark); font-weight: bold; }
+        .english-sub-text { direction: ltr; text-align: left; color: var(--text-muted); display: block; }
+
+        .speak-btn { 
+            background-color: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 50%;
+            width: 45px; 
+            height: 45px; 
+            font-size: 1.3em; 
+            cursor: pointer; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .speak-btn:hover { 
+            background-color: var(--primary); 
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.08);
+        }
+
+        /* ==========================================================================
+           7. النَّمَاذِجُ وَالْفُوتِرُ (Forms & Footer)
+           ========================================================================== */
+        .form-group { 
+            margin-bottom: 16px; 
+            text-align: right; 
+        }
+        
+        .form-group label { 
+            display: block; 
+            font-weight: 700; 
+            margin-bottom: 6px; 
+            color: var(--dark); 
+        }
+        
         .form-group input, .form-group select {
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
-            font-size: 1.1em; font-family: inherit; box-sizing: border-box;
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 10px;
+            font-size: 1.05em; 
+            background: #f8fafc;
         }
-        .form-group input:focus, .form-group select:focus {
-            outline: none; border-color: var(--primary); box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+
+        footer { 
+            text-align: center; 
+            padding: 25px; 
+            font-weight: 700; 
+            color: #94a3b8; 
+            background-color: var(--dark); 
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
+
     <div class="dual-flag-bar"></div>
 
-    <!-- الهيدر والعداد الكلي -->
     <header>
-        <h1>🚀 المنصة الذكية لتعلم الإنجليزية</h1>
-        
-        <div class="global-counter-glass">
-            الموسوعة تحتوي حالياً على: <span id="global-count">0</span> جملة ومحادثة وقاعدة!
-        </div>
-        
-        <br>
-        <div class="accent-selector">
-            <button class="accent-btn active" id="btn-us" onclick="setAccent('US')">
-                <img src="https://flagcdn.com/w40/us.png" alt="US"> اللكنة الأمريكية
-            </button>
-            <button class="accent-btn" id="btn-uk" onclick="setAccent('UK')">
-                <img src="https://flagcdn.com/w40/gb.png" alt="UK"> اللكنة البريطانية
-            </button>
-        </div>
-        <br>
-        <div style="margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.7); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
-            <input type="checkbox" id="auto-pronounce-toggle" style="width: 18px; height: 18px; cursor: pointer;">
-            <label for="auto-pronounce-toggle" style="font-weight: 700; color: var(--dark); font-size: 0.95em; cursor: pointer; user-select: none;">🔊 تشغيل النطق تلقائياً عند فتح الأقسام</label>
+        <h1>🇺🇸 برنامج تعلم الإنجليزية</h1>
+        <p>طريقك لإتقان اللغة الإنجليزية خطوة بخطوة</p>
+        <div class="total-counter-badge">
+            إجمالي الكلمات والجمل: <span id="global-count">0</span>
         </div>
     </header>
 
-    <!-- شريط التنقل الرئيسي -->
-    <div class="nav-bar">
-        <button class="nav-btn active" onclick="setMode('general')" id="nav-general">🗂️ الجمل اليومية والمفردات</button>
-        <button class="nav-btn" onclick="setMode('conversation')" id="nav-conversation">💬 المحادثات الاحترافية</button>
-        <button class="nav-btn" onclick="setMode('grammar')" id="nav-grammar">🧩 القواعد الأكاديمية المفصلة</button>
-    </div>
-
-    <!-- حاوية الكروت -->
     <div class="container">
-        <div class="section-header">
-            <h2 id="main-title">الأقسام التعليمية</h2>
+        <div style="text-align: center;">
+            <h2 class="section-title">التصنيفات الرئيسية</h2>
         </div>
-        <div class="grid-layout" id="cards-container"></div>
+        <div class="categories" id="categories-container"></div>
 
-        <div style="text-align: center; margin: 50px 0 30px 0;">
-            <button class="quiz-btn" onclick="openAddWordModal()" style="background: var(--primary); color: white; border: none; padding: 15px 35px; border-radius: 30px; font-size: 1.25em; cursor: pointer; font-weight: 800; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: 0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="quiz-btn" onclick="openAddWordModal()">
                 ➕ إضافة جملة جديدة (قاموسي)
             </button>
         </div>
-        
-        <br><br>
 
         <div style="text-align: center;">
-            <h2 style="font-size: 2.5em; color: var(--dark); font-weight: 900; position: relative; display: inline-block; margin-bottom: 40px; text-align: center;">🏆 اختبر مستواك (تحدي الـ 50 سؤال)</h2>
+            <h2 class="section-title">🏆 اختبر مستواك (تحدي الـ 50 سؤال)</h2>
         </div>
 
-        <div class="progress-card" style="background: var(--dark); color: white; padding: 25px; border-radius: 20px; text-align: center; max-width: 450px; margin: 0 auto 40px auto; border-bottom: 6px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
-            <h3 style="font-size: 1.3em; margin-bottom: 10px; font-weight: 800;">الرصيد الإجمالي للإجابات الصحيحة</h3>
-            <div class="progress-score" id="score-display" style="font-size: 3.5em; color: var(--gold); font-weight: 900; margin: 10px 0;">0</div>
+        <div class="progress-card">
+            <h3>الرصيد الإجمالي للإجابات الصحيحة</h3>
+            <div class="progress-score" id="score-display">0</div>
         </div>
 
-        <div class="quiz-container" style="background: white; padding: 45px 35px; border-radius: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: center; max-width: 750px; margin: 0 auto; border-top: 6px solid var(--primary);">
+        <div class="quiz-container">
             <div id="quiz-content">
-                <p class="quiz-question" style="font-size: 1.5em; font-weight: 800; color: var(--dark); margin-bottom: 25px;">مستعد لتحدي الـ 50 سؤال في المقارنة والترجمة؟</p>
-                <button class="quiz-btn" id="quiz-start-btn" onclick="startQuizSession()" style="background: var(--primary); color: white; border: none; padding: 15px 35px; border-radius: 30px; font-size: 1.25em; cursor: pointer; font-weight: 800; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: 0.3s;">ابدأ التحدي الآن 🚀</button>
+                <p class="quiz-question">مستعد لتحدي الـ 50 سؤال؟</p>
+                <button class="quiz-btn" id="quiz-start-btn" onclick="startQuizSession()">ابدأ التحدي الآن 🚀</button>
             </div>
-            <div class="progress-bar-container" style="display: none; width: 100%; background-color: #e2e8f0; border-radius: 10px; margin-bottom: 25px; height: 12px; overflow: hidden;" id="quiz-progress-container">
-                <div class="progress-bar-fill" id="quiz-progress-fill" style="height: 100%; background-color: var(--primary); width: 0%; transition: width 0.4s ease;"></div>
+            <div class="progress-bar-container" style="display: none;" id="quiz-progress-container">
+                <div class="progress-bar-fill" id="quiz-progress-fill"></div>
             </div>
             
             <div id="quiz-options" class="quiz-options"></div>
-            <div id="quiz-feedback" style="margin-top: 25px; font-size: 1.35em; font-weight: 800;"></div>
-            <div id="next-btn-container" style="margin-top: 20px;"></div>
+            <div id="quiz-feedback"></div>
+            <div id="next-btn-container"></div>
         </div>
     </div>
 
-    <!-- نافذة المودال لعرض التفاصيل -->
-    <div class="modal" id="data-modal">
+    <div class="modal" id="sentences-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 id="modal-header" style="text-align: center; color: var(--dark); font-size: 2.5em; margin-bottom: 35px; font-weight: 900;"></h2>
-            <div id="modal-body"></div>
+            <h2 id="modal-title" style="text-align: center; color: var(--dark); border-bottom: 3px solid #f1f5f9; padding-bottom: 15px;"></h2>
+            <div id="sentences-list"></div>
         </div>
     </div>
 
-    <!-- الفوتر الذهبي -->
-    <footer>
-        <div class="made-by-gold">Made by Hamza</div>
-    </footer>
+    <div class="modal" id="add-word-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-btn" onclick="closeAddWordModal()">&times;</span>
+            <h2 style="text-align: center; color: var(--dark); border-bottom: 3px solid #f1f5f9; padding-bottom: 15px;">
+                ➕ إضافة جملة للقاموس
+            </h2>
+            <form id="add-word-form" onsubmit="submitNewWord(event)">
+                <div class="form-group">
+                    <label>القسم (التصنيف):</label>
+                    <select id="new-category" required></select>
+                </div>
+                <div class="form-group">
+                    <label>🇺🇸 الجملة بالإنجليزية:</label>
+                    <input type="text" id="new-de" placeholder="مثال: I am a student" required dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label>🧩 تفكيك الكلمات (Word Breakdown):</label>
+                    <input type="text" id="new-breakdown" placeholder="مثال: I = أنا | am = أكون | a = أداة نكرة | student = طالب" required>
+                </div>
+                <div class="form-group">
+                    <label>🗣️ النطق بالعربي:</label>
+                    <input type="text" id="new-pron-ar" placeholder="مثال: آي أم أ شتودنت" required>
+                </div>
+                <div class="form-group">
+                    <label>🗣️ النطق بالإنجليزي (Phonetics):</label>
+                    <input type="text" id="new-pron-en" placeholder="مثال: Ay am a stoo-dent" required dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label>🇪🇬 الترجمة بالعربي:</label>
+                    <input type="text" id="new-ar" placeholder="مثال: أنا طالب" required>
+                </div>
+                <button type="submit" class="quiz-btn" style="width: 100%;">حفظ وإضافة للقاموس ✅</button>
+            </form>
+        </div>
+    </div>
 
-    <!-- سكربت البرمجة (Javascript & Huge Database) -->
+    <footer>made by Hamza</footer>
+
     <script>
-        // الألوان الديناميكية
-        const US_COLOR = "#2563eb"; // أزرق أمريكي
-        const UK_COLOR = "#dc2626"; // أحمر بريطاني
+        /* =========================================
+           إعدادات الصوت (Text-to-Speech)
+           ========================================= */
+        let englishVoice = null;
+        function loadVoices() {
+            let voices = window.speechSynthesis.getVoices();
+            englishVoice = voices.find(v => v.lang.includes('en-US')) || voices.find(v => v.lang.includes('en')) || voices[0];
+        }
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+            loadVoices();
+        }
 
-        let accent = 'US';
-        let mode = 'general';
-        
-        // ==========================================================================
-        // قاعدة البيانات الضخمة جداً (أكثر من 900 سطر بسبب التنسيق والتفاصيل)
-        // ==========================================================================
-        const DB = {
-            general: {
-                daily: { 
-                    title: "الحياة اليومية والروتين 🌅", 
-                    items: [
-                        { 
-                            us: "I usually wake up at 6 AM, then I make a  cup of coffee.", 
-                            uk: "I usually wake up at 6 AM, then I make a  cup of coffee.", 
-                            ar: "عادة أستيقظ في السادسة صباحاً، ثم أعد كوباً  من القهوة." 
-                        },
-                        { 
-                            us: "Traffic was incredibly heavy this morning on my way to work.", 
-                            uk: "Traffic was incredibly heavy this morning on my way to work.", 
-                            ar: "حركة المرور كانت مزدحمة بشكل لا يصدق هذا الصباح في طريقي للعمل." 
-                        },
-                        { 
-                            us: "Could you please do the laundry while I wash the dishes?", 
-                            uk: "Could you please do the washing while I wash the dishes?", 
-                            ar: "هل يمكنك لو سمحت غسل الملابس بينما أقوم أنا بغسل الأطباق؟" 
-                        },
-                        { 
-                            us: "I am planning to hit the gym after finishing my shift.", 
-                            uk: "I am planning to hit the gym after finishing my shift.", 
-                            ar: "أخطط للذهاب إلى صالة الألعاب الرياضية بعد إنهاء ورديتي." 
-                        },
-                        { 
-                            us: "Let's grab a quick bite before the movie starts.", 
-                            uk: "Let's grab a quick bite before the film starts.", 
-                            ar: "دعنا نتناول طعاماً خفيفاً وسريعاً قبل بدء الفيلم." 
-                        },
-                        { 
-                            us: "I need to drop by the grocery store to pick up some fresh milk.", 
-                            uk: "I need to drop by the grocery store to pick up some fresh milk.", 
-                            ar: "أحتاج للمرور بمتجر البقالة لإحضار بعض الحليب الطازج." 
-                        },
-                        { 
-                            us: "She spends a lot of time reading novels before going to bed.", 
-                            uk: "She spends a lot of time reading novels before going to bed.", 
-                            ar: "إنها تقضي الكثير من الوقت في قراءة الروايات قبل الذهاب إلى السرير." 
-                        },
-                        { 
-                            us: "Don't forget to take out the trash before leaving the house.", 
-                            uk: "Don't forget to take out the rubbish before leaving the house.", 
-                            ar: "لا تنسَ إخراج القمامة قبل مغادرة المنزل." 
-                        }
-                    ]
-                },
-                business: { 
-                    title: "الأعمال والشركات 💼", 
-                    items: [
-                        { 
-                            us: "We need to finalize the quarterly report by the end of the day.", 
-                            uk: "We need to finalise the quarterly report by the end of the day.", 
-                            ar: "يجب علينا الانتهاء من التقرير ربع السنوي بحلول نهاية اليوم." 
-                        },
-                        { 
-                            us: "The board of directors approved the new budget allocation.", 
-                            uk: "The board of directors approved the new budget allocation.", 
-                            ar: "وافق مجلس الإدارة على تخصيص الميزانية الجديدة." 
-                        },
-                        { 
-                            us: "Can we schedule a follow-up meeting for next Tuesday?", 
-                            uk: "Can we arrange a follow-up meeting for next Tuesday?", 
-                            ar: "هل يمكننا جدولة اجتماع متابعة ليوم الثلاثاء القادم؟" 
-                        },
-                        { 
-                            us: "She got promoted to the position of Senior Marketing Manager.", 
-                            uk: "She got promoted to the position of Senior Marketing Manager.", 
-                            ar: "لقد تمت ترقيتها إلى منصب مدير التسويق الأول." 
-                        },
-                        { 
-                            us: "Our company is expanding its operations into the European market.", 
-                            uk: "Our company is expanding its operations into the European market.", 
-                            ar: "تتوسع شركتنا في عملياتها داخل السوق الأوروبية." 
-                        },
-                        { 
-                            us: "Please review the attached contract and let me know your thoughts.", 
-                            uk: "Please review the attached contract and let me know your thoughts.", 
-                            ar: "يرجى مراجعة العقد المرفق وإعلامي برأيك." 
-                        }
-                    ]
-                },
-              
-                clothes: { 
-                    title: "الملابس والتسوق 👕", 
-                    items: [
-                        { 
-                            us: "I love these sneakers, how much do they cost?", 
-                            uk: "I love these trainers, how much do they cost?", 
-                            ar: "أنا أحب هذا الحذاء الرياضي، كم سعره؟" 
-                        },
-                        { 
-                            us: "This sweater is too tight, I need a larger size.", 
-                            uk: "This jumper is too tight, I need a larger size.", 
-                            ar: "هذه السترة ضيقة جداً، أحتاج إلى مقاس أكبر." 
-                        },
-                        { 
-                            us: "Do you have these pants in a different color?", 
-                            uk: "Do you have these trousers in a different colour?", 
-                            ar: "هل لديكم هذا البنطال بلون مختلف؟" 
-                        }
-                    ]
-                },
-              bank: { 
-                    title: "محادثة في البنك 🏦", 
-                    items: [
-                        { 
-                            speaker: "الموظف (Teller)", 
-                            us: "Good morning, how can I help you today, sir?", 
-                            uk: "Good morning, how can I help you today, sir?", 
-                            ar: "صباح الخير، كيف يمكنني مساعدتك اليوم يا سيدي؟" 
-                        },
-                        { 
-                            speaker: "العميل (Customer)", 
-                            us: "I would like to open a new checking account, please.", 
-                            uk: "I would like to open a new current account, please.", 
-                            ar: "أود فتح حساب جاري جديد، من فضلك." 
-                        },
-                        { 
-                            speaker: "الموظف (Teller)", 
-                            us: "Sure thing. I will just need your ID and proof of address.", 
-                            uk: "Certainly. I will just need your ID and proof of address.", 
-                            ar: "بالتأكيد. سأحتاج فقط إلى هويتك وإثبات لمحل إقامتك." 
-                        },
-                        { 
-                            speaker: "العميل (Customer)", 
-                            us: "Here is my passport and my recent electricity bill.", 
-                            uk: "Here is my passport and my recent electricity bill.", 
-                            ar: "تفضل جواز سفري وفاتورة الكهرباء الأخيرة." 
-                        }
-                    ]
-                },
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                let utterance = new SpeechSynthesisUtterance(text);
+                if (englishVoice) utterance.voice = englishVoice;
+                utterance.lang = 'en-US'; 
+                utterance.rate = 0.85; 
+                window.speechSynthesis.speak(utterance);
+            }
+        }
 
-                tech: { 
-                    title: "البرمجة والتكنولوجيا 💻", 
-                    items: [
-                        { 
-                            us: "I spent three hours trying to debug this asynchronous function.", 
-                            uk: "I spent three hours trying to debug this asynchronous function.", 
-                            ar: "قضيت ثلاث ساعات أحاول اكتشاف الأخطاء في هذه الدالة غير المتزامنة." 
-                        },
-                        { 
-                            us: "We should deploy the application to the production server tonight.", 
-                            uk: "We should deploy the application to the production server tonight.", 
-                            ar: "ينبغي علينا رفع التطبيق إلى خادم الإنتاج الليلة." 
-                        },
-                        { 
-                            us: "Ensure the database is securely encrypted to prevent data breaches.", 
-                            uk: "Ensure the database is securely encrypted to prevent data breaches.", 
-                            ar: "تأكد من تشفير قاعدة البيانات بأمان لمنع اختراقات البيانات." 
-                        },
-                        { 
-                            us: "The responsive design works perfectly on both mobile and desktop screens.", 
-                            uk: "The responsive design works perfectly on both mobile and desktop screens.", 
-                            ar: "التصميم المتجاوب يعمل بشكل مثالي على شاشات الهواتف وأجهزة الكمبيوتر." 
-                        },
-                        { 
-                            us: "I am writing a script to automate the testing process.", 
-                            uk: "I am writing a script to automate the testing process.", 
-                            ar: "أنا أكتب سكريبت لأتمتة عملية الاختبار." 
-                        },
-                        { 
-                            us: "Make sure you commit your changes to the repository before logging off.", 
-                            uk: "Make sure you commit your changes to the repository before logging off.", 
-                            ar: "تأكد من حفظ تغييراتك في المستودع (GitHub) قبل تسجيل الخروج." 
-                        }
-                    ]
-                },
-                travel: { 
-                    title: "السفر والمطارات ✈️", 
-                    items: [
-                        { 
-                            us: "I would like to book a round-trip ticket to Paris, please.", 
-                            uk: "I would like to book a return ticket to Paris, please.", 
-                            ar: "أود حجز تذكرة ذهاب وعودة إلى باريس، من فضلك." 
-                        },
-                        { 
-                            us: "Your flight has been delayed due to severe weather conditions.", 
-                            uk: "Your flight has been delayed due to severe weather conditions.", 
-                            ar: "تم تأجيل رحلتك بسبب الظروف الجوية القاسية." 
-                        },
-                        { 
-                            us: "Please make sure your seatbelt is securely fastened during takeoff.", 
-                            uk: "Please make sure your seatbelt is securely fastened during take-off.", 
-                            ar: "يرجى التأكد من ربط حزام الأمان بإحكام أثناء الإقلاع." 
-                        },
-                        { 
-                            us: "Excuse me, where is the baggage claim area?", 
-                            uk: "Excuse me, where is the baggage reclaim area?", 
-                            ar: "عذراً، أين تقع منطقة استلام الأمتعة؟" 
-                        },
-                        { 
-                            us: "I need to apply for a tourist visa before traveling.", 
-                            uk: "I need to apply for a tourist visa before travelling.", 
-                            ar: "أحتاج للتقديم على تأشيرة سياحية قبل السفر." 
-                        }
-                    ]
-                },
-                health: {
-                    title: "الصحة والطب 🏥",
-                    items: [
-                        {
-                            us: "I have been experiencing a sharp pain in my lower back.",
-                            uk: "I have been experiencing a sharp pain in my lower back.",
-                            ar: "أعاني من ألم حاد في أسفل ظهري."
-                        },
-                        {
-                            us: "The doctor prescribed some antibiotics for my sore throat.",
-                            uk: "The doctor prescribed some antibiotics for my sore throat.",
-                            ar: "وصف لي الطبيب بعض المضادات الحيوية لالتهاب الحلق."
-                        },
-                        {
-                            us: "It is important to maintain a balanced diet for good health.",
-                            uk: "It is important to maintain a balanced diet for good health.",
-                            ar: "من المهم الحفاظ على نظام غذائي متوازن من أجل صحة جيدة."
-                        },
-                        {
-                            us: "She had to undergo surgery to remove her appendix.",
-                            uk: "She had to undergo surgery to remove her appendix.",
-                            ar: "كان عليها الخضوع لعملية جراحية لإزالة الزائدة الدودية."
-                        }
-                    ]
-                },
-                vocabulary: {
-                    title: "فروق المفردات والكلمات 🇺🇸🆚🇬🇧",
-                    items: [
-                        { us: "I need to rent an apartment in London.", uk: "I need to rent a flat in London.", ar: "أحتاج إلى استئجار شقة في لندن." },
-                        { us: "Let's take the elevator to the fifth floor.", uk: "Let's take the lift to the fifth floor.", ar: "دعنا نأخذ المصعد إلى الطابق الخامس." },
-                        { us: "We traveled by subway to save time.", uk: "We travelled by tube to save time.", ar: "سافرنا بمترو الأنفاق لتوفير الوقت." },
-                        { us: "Would you like a chocolate chip cookie?", uk: "Would you like a chocolate chip biscuit?", ar: "هل ترغب في بسكويت برقائق الشوكولاتة؟" },
-                        { us: "Where are you going for your summer vacation?", uk: "Where are you going for your summer holiday?", ar: "أين تذهب لقضاء إجازتك الصيفية؟" },
-                        { us: "I bought a bag of potato chips.", uk: "I bought a packet of crisps.", ar: "اشتريت كيس رقائق البطاطس (شيبس)." },
-                        { us: "He loves eating burgers with french fries.", uk: "He loves eating burgers with chips.", ar: "هو يحب أكل البرجر مع البطاطس المقلية." },
-                        { us: "My car is low on gasoline, I need a gas station.", uk: "My car is low on petrol, I need a petrol station.", ar: "سيارتي بها القليل من البنزين، أحتاج إلى محطة وقود." },
-                        { us: "A huge truck blocked the highway.", uk: "A huge lorry blocked the motorway.", ar: "شاحنة ضخمة سدت الطريق السريع." },
-                        { us: "I check my mail every morning.", uk: "I check my post every morning.", ar: "أتحقق من بريدي كل صباح." },
-                        { us: "Kids love playing soccer in the school yard.", uk: "Kids love playing football in the school garden.", ar: "الأطفال يحبون لعب كرة القدم في حديقة المدرسة." },
-                        { us: "Can I borrow your eraser for a second?", uk: "Can I borrow your rubber for a second?", ar: "هل يمكنني استعارة ممحاتك لثانية؟" },
-                        { us: "She hung her new dress in the closet.", uk: "She hung her new dress in the wardrobe.", ar: "علقت فستانها الجديد في خزانة الملابس." }
-                    ]
-                }
+        /* =========================================
+           قاعدة البيانات الشاملة لتعلم الإنجليزية
+           ========================================= */
+        const data = {
+            "greetings": {
+                title: "التعارف والتحيات 👋",
+                sentences: [
+                    { de: "Good morning", breakdown: "Good = جيد | morning = صباح", pron_ar: "جود مورنينج", pron_en: "Good mor-ning", ar: "صباح الخير" },
+                    { de: "Good evening", breakdown: "Good = جيد | evening = مساء", pron_ar: "جود إيفنينج", pron_en: "Good eve-ning", ar: "مساء الخير" },
+                    { de: "Good night", breakdown: "Good = جيدة | night = ليلة", pron_ar: "جود نايت", pron_en: "Good night", ar: "تصبح على خير" },
+                    { de: "What is your name?", breakdown: "What = ما | is = يكون | your name = اسمك", pron_ar: "وات إيز يور نيم؟", pron_en: "What iz yor neym?", ar: "ما اسمك؟" },
+                    { de: "Nice to meet you", breakdown: "Nice = لطيف | to meet = مقابلة | you = ك (أنت)", pron_ar: "نايس تو ميت يو", pron_en: "Nice too meet yoo", ar: "سعدت بلقائك" },
+                    { de: "How are you?", breakdown: "How = كيف | are = تكون | you = أنت", pron_ar: "هاو آر يو؟", pron_en: "How are yoo?", ar: "كيف حالك؟" },
+                    { de: "I am fine, thank you", breakdown: "I = أنا | am = أكون | fine = بخير | thank you = شكراً لك", pron_ar: "آي أم فاين، ثانك يو", pron_en: "Ay am fyn, thank yoo", ar: "أنا بخير، شكراً" },
+                    { de: "Goodbye", breakdown: "Goodbye = مع السلامة/إلى اللقاء", pron_ar: "جود باي", pron_en: "Good-bye", ar: "إلى اللقاء" },
+                    { de: "Bye", breakdown: "Bye = سلام (غير رسمية)", pron_ar: "باي", pron_en: "Bye", ar: "وداعاً" },
+                    { de: "See you soon", breakdown: "See = أرى | you = ك | soon = قريباً", pron_ar: "سي يو سون", pron_en: "See yoo zoon", ar: "أراك قريباً" },
+                    { de: "Excuse me", breakdown: "Excuse = عذر | me = ني (أنا)", pron_ar: "إكسكيوز مي", pron_en: "Ex-kyooz mee", ar: "معذرة / عذراً" },
+                    { de: "Yes, please", breakdown: "Yes = نعم | please = من فضلك", pron_ar: "يس، بليز", pron_en: "Yes, pleez", ar: "نعم، من فضلك" },
+                    { de: "No, thank you", breakdown: "No = لا | thank you = شكراً لك", pron_ar: "نو، ثانك يو", pron_en: "No, thank yoo", ar: "لا، شكراً" },
+                    { de: "Hello!", breakdown: "Hello = مرحباً", pron_ar: "هلو", pron_en: "He-low", ar: "مرحباً!" },
+                    { de: "How is it going?", breakdown: "How = كيف | is it going = تجري الأمور", pron_ar: "هاو إز إت جوينج", pron_en: "Haw iz it go-ing", ar: "كيف تجري الأمور؟" },
+                    { de: "I am doing well, thanks.", breakdown: "I = أنا | doing well = أؤدي جيداً | thanks = شكراً", pron_ar: "آي أم دوينج ويل، ثانكس", pron_en: "Ay am doo-ing wel, thanks", ar: "أنا بوضع جيد، شكراً." }
+                ]
             },
-            conversation: {
-            bank: { 
-                    title: "محادثة في البنك 🏦", 
-                    items: [
-                        { 
-                            speaker: "الموظف (Teller)", 
-                            us: "Good morning, how can I help you today, sir?", 
-                            uk: "Good morning, how can I help you today, sir?", 
-                            ar: "صباح الخير، كيف يمكنني مساعدتك اليوم يا سيدي؟" 
-                        },
-                        { 
-                            speaker: "العميل (Customer)", 
-                            us: "I would like to open a new checking account, please.", 
-                            uk: "I would like to open a new current account, please.", 
-                            ar: "أود فتح حساب جاري جديد، من فضلك." 
-                        },
-                        { 
-                            speaker: "الموظف (Teller)", 
-                            us: "Sure thing. I will just need your ID and proof of address.", 
-                            uk: "Certainly. I will just need your ID and proof of address.", 
-                            ar: "بالتأكيد. سأحتاج فقط إلى هويتك وإثبات لمحل إقامتك." 
-                        },
-                        { 
-                            speaker: "العميل (Customer)", 
-                            us: "Here is my passport and my recent electricity bill.", 
-                            uk: "Here is my passport and my recent electricity bill.", 
-                            ar: "تفضل جواز سفري وفاتورة الكهرباء الأخيرة." 
-                        }
-                    ]
-                },
-                weather: { 
-                    title: "حالة الطقس والفصول 🌤️", 
-                    items: [
-                        { 
-                            us: "It’s freezing outside, make sure to bring your heavy jacket.", 
-                            uk: "It’s freezing outside, make sure to bring your heavy coat.", 
-                            ar: "الجو شديد البرودة بالخارج، تأكد من إحضار معطفك الثقيل." 
-                        },
-                        { 
-                            us: "It is going to rain heavily this afternoon.", 
-                            uk: "It is going to rain heavily this afternoon.", 
-                            ar: "سوف تمطر بغزارة بعد ظهر اليوم." 
-                        },
-                        { 
-                            us: "The weather is perfect for a walk in the park.", 
-                            uk: "The weather is perfect for a walk in the park.", 
-                            ar: "الطقس مثالي للمشي في المتنزه." 
-                        }
-                    ]
-                },
-                clothes: { 
-                    title: "الملابس والتسوق 👕", 
-                    items: [
-                        { 
-                            us: "I love these sneakers, how much do they cost?", 
-                            uk: "I love these trainers, how much do they cost?", 
-                            ar: "أنا أحب هذا الحذاء الرياضي، كم سعره؟" 
-                        },
-                        { 
-                            us: "This sweater is too tight, I need a larger size.", 
-                            uk: "This jumper is too tight, I need a larger size.", 
-                            ar: "هذه السترة ضيقة جداً، أحتاج إلى مقاس أكبر." 
-                        },
-                        { 
-                            us: "Do you have these pants in a different color?", 
-                            uk: "Do you have these trousers in a different colour?", 
-                            ar: "هل لديكم هذا البنطال بلون مختلف؟" 
-                        }
-                    ]
-                },
-                job_interview: { 
-                    title: "مقابلة عمل مع الإدارة 🤝", 
-                    items: [
-                        { 
-                            speaker: "المدير (Mr. Smith)", 
-                            us: "Welcome. Can you tell me a little bit about your professional background?", 
-                            uk: "Welcome. Can you tell me a little bit about your professional background?", 
-                            ar: "أهلاً بك. هل يمكنك إخباري قليلاً عن خلفيتك المهنية؟" 
-                        },
-                        { 
-                            speaker: "المتقدم (Alex)", 
-                            us: "Certainly. I have over five years of experience in software development and project management.", 
-                            uk: "Certainly. I have over five years of experience in software development and project management.", 
-                            ar: "بالتأكيد. لدي خبرة تزيد عن خمس سنوات في تطوير البرمجيات وإدارة المشاريع." 
-                        },
-                        { 
-                            speaker: "المدير (Mr. Smith)", 
-                            us: "That sounds impressive. How do you handle working under tight deadlines?", 
-                            uk: "That sounds impressive. How do you handle working under tight deadlines?", 
-                            ar: "هذا يبدو مثيراً للإعجاب. كيف تتعامل مع العمل تحت المواعيد النهائية الضيقة؟" 
-                        },
-                        { 
-                            speaker: "المتقدم (Alex)", 
-                            us: "I prioritize tasks, stay highly organized, and communicate effectively with my team to ensure everything gets done on time.", 
-                            uk: "I prioritise tasks, stay highly organised, and communicate effectively with my team to ensure everything gets done on time.", 
-                            ar: "أقوم بتحديد أولويات المهام، وأبقى منظماً للغاية، وأتواصل بفاعلية مع فريقي لضمان إنجاز كل شيء في الوقت المحدد." 
-                        },
-                        { 
-                            speaker: "المدير (Mr. Smith)", 
-                            us: "Excellent. Do you have any questions for me about the company?", 
-                            uk: "Excellent. Do you have any questions for me about the company?", 
-                            ar: "ممتاز. هل لديك أي أسئلة لي بخصوص الشركة؟" 
-                        },
-                        { 
-                            speaker: "المتقدم (Alex)", 
-                            us: "Yes, I would love to know more about the team culture and opportunities for growth.", 
-                            uk: "Yes, I would love to know more about the team culture and opportunities for growth.", 
-                            ar: "نعم، أود أن أعرف المزيد عن ثقافة الفريق وفرص النمو." 
-                        }
-                    ]
-                },
-                restaurant: { 
-                    title: "عشاء في مطعم فاخر 🍽️", 
-                    items: [
-                        { 
-                            speaker: "النادل (Waiter)", 
-                            us: "Good evening. Do you have a reservation with us tonight?", 
-                            uk: "Good evening. Do you have a booking with us tonight?", 
-                            ar: "مساء الخير. هل لديكم حجز معنا الليلة؟" 
-                        },
-                        { 
-                            speaker: "الزبون (John)", 
-                            us: "Yes, a table for two under the name Carter at 8 PM.", 
-                            uk: "Yes, a table for two under the name Carter at 8 PM.", 
-                            ar: "نعم، طاولة لشخصين باسم كارتر في الساعة الثامنة مساءً." 
-                        },
-                        { 
-                            speaker: "النادل (Waiter)", 
-                            us: "Right this way. Would you like to start with some appetizers or drinks?", 
-                            uk: "Right this way. Would you like to start with some starters or drinks?", 
-                            ar: "من هذا الطريق. هل تودان البدء ببعض المقبلات أو المشروبات؟" 
-                        },
-                        { 
-                            speaker: "الزبون (John)", 
-                            us: "We'll have sparkling water and the garlic bread, please.", 
-                            uk: "We'll have sparkling water and the garlic bread, please.", 
-                            ar: "سنتناول المياه الغازية وخبز الثوم، من فضلك." 
-                        },
-                        { 
-                            speaker: "النادل (Waiter)", 
-                            us: "Excellent choice. Are you ready to order your main course?", 
-                            uk: "Excellent choice. Are you ready to order your main course?", 
-                            ar: "اختيار ممتاز. هل أنتم مستعدون لطلب الطبق الرئيسي؟" 
-                        },
-                        { 
-                            speaker: "الزبون (John)", 
-                            us: "I will have the grilled salmon, and my wife will take the mushroom risotto.", 
-                            uk: "I will have the grilled salmon, and my wife will take the mushroom risotto.", 
-                            ar: "سأتناول السلمون المشوي، وزوجتي ستأخذ ريزوتو الفطر." 
-                        }
-                    ]
-                },
-                hospital: { 
-                    title: "زيارة طبيب الطوارئ 🏥", 
-                    items: [
-                        { 
-                            speaker: "الطبيب (Dr. Sarah)", 
-                            us: "Hello, what seems to be the problem today?", 
-                            uk: "Hello, what seems to be the problem today?", 
-                            ar: "مرحباً، ما هي المشكلة التي تعاني منها اليوم؟" 
-                        },
-                        { 
-                            speaker: "المريض (Tom)", 
-                            us: "I slipped on the ice and my ankle is swelling rapidly. The pain is unbearable.", 
-                            uk: "I slipped on the ice and my ankle is swelling rapidly. The pain is unbearable.", 
-                            ar: "انزلقت على الجليد وكاحلي يتورم بسرعة. الألم لا يطاق." 
-                        },
-                        { 
-                            speaker: "الطبيب (Dr. Sarah)", 
-                            us: "Let me examine it. We will need to take an X-ray to see if it is fractured.", 
-                            uk: "Let me examine it. We will need to take an X-ray to see if it is fractured.", 
-                            ar: "دعني أفحصه. سنحتاج إلى إجراء تصوير بالأشعة السينية لنرى ما إذا كان هناك كسر." 
-                        },
-                        { 
-                            speaker: "المريض (Tom)", 
-                            us: "Will I need to wear a cast?", 
-                            uk: "Will I need to wear a plaster cast?", 
-                            ar: "هل سأحتاج لوضع جبيرة (جبس)؟" 
-                        },
-                        { 
-                            speaker: "الطبيب (Dr. Sarah)", 
-                            us: "It depends on the X-ray results. For now, I'll give you a painkiller.", 
-                            uk: "It depends on the X-ray results. For now, I'll give you a painkiller.", 
-                            ar: "هذا يعتمد على نتائج الأشعة. في الوقت الحالي، سأعطيك مسكناً للألم." 
-                        }
-                    ]
-                },
-                shopping: {
-                    title: "التسوق في المول 🛒",
-                    items: [
-                        {
-                            speaker: "البائع (Assistant)",
-                            us: "Hello! Let me know if you need any help finding your size.",
-                            uk: "Hello! Let me know if you need any help finding your size.",
-                            ar: "مرحباً! أخبرني إذا كنت بحاجة لأي مساعدة في إيجاد مقاسك."
-                        },
-                        {
-                            speaker: "الزبون (Ali)",
-                            us: "Actually, yes. Do you have this jacket in a medium?",
-                            uk: "Actually, yes. Do you have this jacket in a medium?",
-                            ar: "في الواقع، نعم. هل لديكم هذا الجاكيت بمقاس متوسط؟"
-                        },
-                        {
-                            speaker: "البائع (Assistant)",
-                            us: "Let me check the stockroom for you. Give me just one moment.",
-                            uk: "Let me check the stockroom for you. Give me just one moment.",
-                            ar: "دعني أتحقق من المخزن من أجلك. أمهلني لحظة واحدة فقط."
-                        },
-                        {
-                            speaker: "الزبون (Ali)",
-                            us: "Take your time. I'll be looking at these shoes in the meantime.",
-                            uk: "Take your time. I'll be looking at these shoes in the meantime.",
-                            ar: "خذ وقتك. سألقي نظرة على هذه الأحذية في غضون ذلك."
-                        }
-                    ]
-                }
+            "home": {
+                title: "في المنزل 🏠",
+                sentences: [
+                    { de: "I am at home", breakdown: "I = أنا | am = أكون | at = في | home = المنزل", pron_ar: "آي أم أت هوم", pron_en: "Ay am at home", ar: "أنا في المنزل" },
+                    { de: "Where is the kitchen?", breakdown: "Where = أين | is = يكون | the = الـ | kitchen = المطبخ", pron_ar: "وير إيز ذي كيتشن؟", pron_en: "Wair iz thee kitch-en?", ar: "أين المطبخ؟" },
+                    { de: "The living room is big", breakdown: "The = الـ | living room = غرفة المعيشة | is = تكون | big = كبيرة", pron_ar: "ذي ليفينج روم إيز بيج", pron_en: "The liv-ing room iz big", ar: "غرفة المعيشة كبيرة" },
+                    { de: "I clean up my room", breakdown: "I = أنا | clean up = أنظف/أرتب | my = لي | room = غرفة", pron_ar: "آي كلين أب ماي روم", pron_en: "Ay kleen up may room", ar: "أنا أرتب غرفتي" },
+                    { de: "The bed is very comfortable", breakdown: "The = الـ | bed = السرير | is = يكون | very = جداً | comfortable = مريح", pron_ar: "ذي بْيد إيز فيري كمفورتابل", pron_en: "The bed iz ve-ry kom-for-ta-ble", ar: "السرير مريح جداً" },
+                    { de: "I am going to sleep now", breakdown: "I = أنا | am going = ذاهب | to sleep = للنوم | now = الآن", pron_ar: "آي أم جوينج تو سليب ناو", pron_en: "Ay am go-ing too sleep now", ar: "سأذهب للنوم الآن" },
+                    { de: "Please close the window", breakdown: "Please = من فضلك | close = أغلق | the = الـ | window = النافذة", pron_ar: "بليز كلوز ذي ويندو", pron_en: "Pleez klohz thee win-doh", ar: "أغلق النافذة من فضلك" },
+                    { de: "Where are my keys?", breakdown: "Where = أين | are = تكون (للجمع) | my = لي | keys = مفاتيح", pron_ar: "وير آر ماي كيز؟", pron_en: "Wair are may keez?", ar: "أين مفتاحي؟" },
+                    { de: "I wash my hands", breakdown: "I = أنا | wash = أغسل | my = لي | hands = أيدي", pron_ar: "آي واش ماي هاندز", pron_en: "Ay wahsh may handz", ar: "أنا أغسل يدي" },
+                    { de: "The TV is broken", breakdown: "The = الـ | TV = التلفاز | is = يكون | broken = معطل/مكسور", pron_ar: "ذي تيفي إيز بروكن", pron_en: "The tee-vee iz broh-ken", ar: "التلفاز معطل" }
+                ]
             },
-            grammar: {
-             present_perfect: { 
-                    title: "المضارع التام (Present Perfect) ⏳", 
-                    items: [
-                        { 
-                            rule: "🔹 الاستخدام الأول: حدث وقع في الماضي وله أثر في الحاضر.<br>التكوين: نستخدم (have/has) كفعل مساعد ثم نضع الفعل الأساسي في التصريف الثالث (Past Participle).", 
-                            us: "I have lost my keys, so I cannot open the door.", 
-                            uk: "I have lost my keys, so I cannot open the door.", 
-                            ar: "لقد فقدت مفاتيحي، لذلك لا أستطيع فتح الباب." 
-                        },
-                        { 
-                            rule: "🔹 الاستخدام الثاني: التعبير عن تجارب الحياة أو إنجازات دون تحديد الوقت.<br>إذا تم تحديد الوقت نستخدم الماضي البسيط، أما بدون تحديد نستخدم المضارع التام.", 
-                            us: "She has visited Paris three times in her life.", 
-                            uk: "She has visited Paris three times in her life.", 
-                            ar: "لقد زارت باريس ثلاث مرات في حياتها." 
-                        },
-                        { 
-                            rule: "🔹 الاستخدام مع كلمات دالة (Keywords)<br>يأتي هذا الزمن غالباً مع كلمات مثل (just, already, yet, ever, never, since, for).", 
-                            us: "We have already finished the quarterly report.", 
-                            uk: "We have already finished the quarterly report.", 
-                            ar: "لقد أنهينا التقرير ربع السنوي بالفعل." 
-                        },
-                        { 
-                            rule: "🔹 النفي (Negative Form)<br>لنفي الجملة نضع (not) بعد (have) أو (has) لتبدو (haven't / hasn't).", 
-                            us: "He hasn't finished his homework yet.", 
-                            uk: "He hasn't finished his homework yet.", 
-                            ar: "لم ينهِ واجبه المدرسي بعد." 
-                        }
-                    ]
-                },
-                present_simple: { 
-                    title: "المضارع البسيط (Present Simple) مفصّل 📖", 
-                    items: [
-                        { 
-                            rule: "🔹 الاستخدام الأول: الحقائق الثابتة والعلمية (Scientific Facts)<br>نستخدم المضارع البسيط للتحدث عن الحقائق العلمية والأشياء التي لا تتغير، حيث نضيف حرفي (s/es) للفعل مع الفاعل المفرد الغائب مثل (he, she, it).", 
-                            us: "Water boils at 100 degrees Celsius and freezes at 0 degrees.", 
-                            uk: "Water boils at 100 degrees Celsius and freezes at 0 degrees.", 
-                            ar: "يغلي الماء عند 100 درجة مئوية ويتجمد عند 0 درجة." 
-                        },
-                        { 
-                            rule: "🔹 الاستخدام الثاني: العادات والروتين اليومي (Habits and Routines)<br>نستخدمه للتعبير عن أحداث متكررة بشكل دوري. غالباً ما يأتي هذا الزمن مع ظروف التكرار مثل (always, usually, often, sometimes, never).", 
-                            us: "I always drink a cup of black coffee before starting my work.", 
-                            uk: "I always drink a cup of black coffee before starting my work.", 
-                            ar: "أنا دائماً أشرب كوباً من القهوة السوداء قبل بدء عملي." 
-                        },
-                        { 
-                            rule: "🔹 تكوين النفي (Negative Form)<br>لنفي الجملة نستخدم don't مع ضمائر (I, you, we, they) ونستخدم doesn't مع (he, she, it) ويأتي بعدهما الفعل دائماً في المصدر بدون أي إضافات.", 
-                            us: "She doesn't like playing tennis, but she loves swimming.", 
-                            uk: "She doesn't like playing tennis, but she loves swimming.", 
-                            ar: "هي لا تحب لعب التنس، ولكنها تحب السباحة." 
-                        },
-                        { 
-                            rule: "🔹 تكوين السؤال (Question Form)<br>لصياغة السؤال نستخدم Do أو Does في بداية الجملة ثم نضع الفاعل ثم الفعل في حالته الأصلية (المصدر).", 
-                            us: "Do you usually work on weekends or do you take time off?", 
-                            uk: "Do you usually work on weekends or do you take time off?", 
-                            ar: "هل تعمل عادة في عطلات نهاية الأسبوع أم تأخذ إجازة؟" 
-                        }
-                    ]
-                },
-                past_simple: { 
-                    title: "الماضي البسيط (Past Simple) مفصّل ⏳", 
-                    items: [
-                        { 
-                            rule: "🔹 الاستخدام الأساسي: أحداث بدأت وانتهت في الماضي.<br>يستخدم للتعبير عن فعل اكتمل في زمن ماضٍ محدد. تكوين الأفعال المنتظمة يتم بإضافة (ed) أو (d) لنهاية الفعل. وتأتي غالباً مع كلمات دالة مثل (yesterday, last week, ago, in 2010).", 
-                            us: "We visited the national museum in London last summer.", 
-                            uk: "We visited the national museum in London last summer.", 
-                            ar: "زرنا المتحف الوطني في لندن الصيف الماضي." 
-                        },
-                        { 
-                            rule: "🔹 الأفعال الشاذة غير المنتظمة (Irregular Verbs)<br>هناك الكثير من الأفعال في اللغة الإنجليزية لا تتبع قاعدة إضافة (ed) ويجب حفظ تصريفها الثاني غيباً (مثل: go يتحول إلى went / buy يتحول إلى bought / see يتحول إلى saw).", 
-                            us: "I bought a new smartphone and went directly to the park.", 
-                            uk: "I bought a new smartphone and went directly to the park.", 
-                            ar: "اشتريت هاتفاً ذكياً جديداً وذهبت مباشرة إلى المتنزه." 
-                        },
-                        { 
-                            rule: "🔹 النفي في الماضي البسيط (Negative Past)<br>نستخدم (didn't) للنفي مع جميع الضمائر، ويجب الانتباه إلى أنه بعد (didn't) يعود الفعل فوراً إلى أصله (المصدر) ولا يبقى في تصريف الماضي.", 
-                            us: "They didn't finish the project because they ran out of time.", 
-                            uk: "They didn't finish the project because they ran out of time.", 
-                            ar: "لم ينهوا المشروع لأن الوقت نفد منهم." 
-                        },
-                        { 
-                            rule: "🔹 السؤال في الماضي البسيط (Questions)<br>نستخدم كلمة (Did) كفعل مساعد في بداية السؤال مع جميع الضمائر، وأيضاً يجب أن يكون الفعل الأساسي في حالة المصدر.", 
-                            us: "Did you watch the football match last night?", 
-                            uk: "Did you watch the football match last night?", 
-                            ar: "هل شاهدت مباراة كرة القدم ليلة أمس؟" 
-                        }
-                    ]
-                },
-                present_continuous: {
-                    title: "المضارع المستمر (Present Continuous) 🔄",
-                    items: [
-                        {
-                            rule: "🔹 الاستخدام الأول: أفعال تحدث الآن (Happening Now)<br>نستخدم هذا الزمن لوصف شيء يحدث في لحظة الكلام تحديداً. يتكون من (am/is/are) متبوعاً بالفعل مضافاً إليه (ing).",
-                            us: "Please be quiet, the baby is sleeping right now.",
-                            uk: "Please be quiet, the baby is sleeping right now.",
-                            ar: "من فضلك كن هادئاً، الطفل نائم الآن."
-                        },
-                        {
-                            rule: "🔹 الاستخدام الثاني: الترتيبات المستقبلية المؤكدة (Future Arrangements)<br>يمكن استخدام المضارع المستمر للتحدث عن خطط وترتيبات مستقبلية تم التأكيد عليها وتحديد موعدها.",
-                            us: "We are flying to Tokyo next Monday morning.",
-                            uk: "We are flying to Tokyo next Monday morning.",
-                            ar: "نحن سنسافر بالطائرة إلى طوكيو صباح الاثنين القادم."
-                        },
-                        {
-                            rule: "🔹 النفي والسؤال (Negatives and Questions)<br>للنفي نضع not بعد الفعل المساعد (am/is/are). وللسؤال نقدم الفعل المساعد على الفاعل.",
-                            us: "Are you listening to me? I am not joking.",
-                            uk: "Are you listening to me? I am not joking.",
-                            ar: "هل تستمع إلي؟ أنا لا أمزح."
-                        }
-                    ]
-                },
-                conditionals: { 
-                    title: "حالات If الشرطية (Conditionals) 🔀", 
-                    items: [
-                        { 
-                            rule: "🔹 الحالة الصفرية (Zero Conditional)<br>تستخدم للحقائق العلمية المؤكدة أو النتائج الحتمية. التكوين في كلا شقي الجملة يكون: (If + مضارع بسيط ، مضارع بسيط).", 
-                            us: "If you mix blue and yellow, you get green.", 
-                            uk: "If you mix blue and yellow, you get green.", 
-                            ar: "إذا خلطت الأزرق والأصفر، تحصل على الأخضر." 
-                        },
-                        { 
-                            rule: "🔹 الحالة الأولى (First Conditional)<br>تستخدم لاحتمالات حقيقية وممكنة الحدوث في المستقبل. التكوين: (If + مضارع بسيط ، will + المصدر).", 
-                            us: "If it rains tomorrow, we will cancel the outdoor picnic.", 
-                            uk: "If it rains tomorrow, we will cancel the outdoor picnic.", 
-                            ar: "إذا أمطرت غداً، سوف نلغي النزهة الخارجية." 
-                        },
-                        { 
-                            rule: "🔹 الحالة الثانية (Second Conditional)<br>تستخدم للتخيل والافتراض في الحاضر (مواقف غير حقيقية أو مستبعدة). التكوين: (If + ماضي بسيط ، would + المصدر).", 
-                            us: "If I had a million dollars, I would travel around the world.", 
-                            uk: "If I had a million dollars, I would travel around the world.", 
-                            ar: "لو كان لدي مليون دولار، لسافرت حول العالم." 
-                        },
-                        {
-                            rule: "🔹 الحالة الثالثة (Third Conditional)<br>تستخدم للندم أو تخيل ماضٍ مختلف (مستحيلة الحدوث لأن الماضي انتهى). التكوين: (If + ماضي تام ، would have + التصريف الثالث).",
-                            us: "If she had studied harder, she would have passed the exam.",
-                            uk: "If she had studied harder, she would have passed the exam.",
-                            ar: "لو كانت قد ذاكرت بجدية أكبر، لكانت قد اجتازت الامتحان."
-                        }
-                    ]
-                }
+            "restaurant": {
+                title: "المطاعم والأكل 🍽️",
+                sentences: [
+                    { de: "The menu, please", breakdown: "The = الـ | menu = قائمة الطعام | please = من فضلك", pron_ar: "ذي مانيو، بليز", pron_en: "The men-yoo, pleez", ar: "قائمة الطعام، من فضلك" },
+                    { de: "I would like to order, please", breakdown: "I = أنا | would like = أرغب | to order = أن أطلب | please = من فضلك", pron_ar: "آي وود لايك تو أوردر، بليز", pron_en: "Ay wood lyk too or-der, pleez", ar: "أريد أن أطلب من فضلك" },
+                    { de: "The bill, please", breakdown: "The = الـ | bill = الفاتورة | please = من فضلك", pron_ar: "ذي بِل، بليز", pron_en: "The bil, pleez", ar: "الفاتورة من فضلك" },
+                    { de: "The food is very delicious", breakdown: "The = الـ | food = الطعام | is = يكون | very = جداً | delicious = لذيذ", pron_ar: "ذي فود إيز فيري ديليشس", pron_en: "The food iz ve-ry de-lish-us", ar: "الطعام لذيذ جداً" },
+                    { de: "A table for two, please", breakdown: "A = أداة نكرة | table = طاولة | for = لـ | two = اثنان | please = من فضلك", pron_ar: "أ تيبِل فور تو، بليز", pron_en: "A tey-ble for too, pleez", ar: "طاولة لشخصين، من فضلك" },
+                    { de: "What can you recommend?", breakdown: "What = ماذا | can = تستطيع | you = أنت | recommend = تنصح/توصي", pron_ar: "وات كان يو ريكوميند؟", pron_en: "What kan yoo re-ko-mend?", ar: "بماذا تنصح؟" },
+                    { de: "I am a vegetarian", breakdown: "I = أنا | am = أكون | vegetarian = نباتي", pron_ar: "آي أم أ فيجيتاريان", pron_en: "Ay am a ve-ge-tey-ree-an", ar: "أنا نباتي" },
+                    { de: "Keep the change", breakdown: "Keep = احتفظ بـ | the = الـ | change = الفكة/الباقي", pron_ar: "كيب ذي تشينج", pron_en: "Keep thee cheynj", ar: "احتفظ بالباقي (بقشيش)" },
+                    { de: "Do you have any more bread?", breakdown: "Do you have = هل لديكم | any more = المزيد من | bread = خبز", pron_ar: "دو يو هاف إني مور بريد؟", pron_en: "Doo yoo hav e-nee mor bred?", ar: "هل لديكم المزيد من الخبز؟" }
+                ]
+            },
+            "places": {
+                title: "الأماكن والتنزه 🏞️",
+                sentences: [
+                    { de: "Where is the park?", breakdown: "Where = أين | is = يكون | the = الـ | park = حديقة", pron_ar: "وير إيز ذي بارك؟", pron_en: "Wair iz thee park?", ar: "أين الحديقة؟" },
+                    { de: "We are going to the cinema", breakdown: "We = نحن | are going = ذاهبون | to the = إلى الـ | cinema = سينما", pron_ar: "وي آر جوينج تو ذي سينما", pron_en: "Wee are go-ing too thee ci-ne-ma", ar: "نحن ذاهبون إلى السينما" },
+                    { de: "Is the swimming pool open?", breakdown: "Is = هل يكون | the = الـ | swimming pool = حمام السباحة | open = مفتوح", pron_ar: "إيز ذي سويمينج بول اوبن؟", pron_en: "Iz thee swim-ming pool oh-pen?", ar: "هل حمام السباحة مفتوح؟" },
+                    { de: "Where is the nearest museum?", breakdown: "Where = أين | is = يكون | the = الـ | nearest = الأقرب | museum = متحف", pron_ar: "وير إيز ذي نيريست موزيوم؟", pron_en: "Wair iz thee neer-ist myoo-zee-um?", ar: "أين أقرب متحف؟" },
+                    { de: "How do I get to the station?", breakdown: "How = كيف | do I get = أصل أنا | to the = إلى الـ | station = المحطة", pron_ar: "هاو دو آي جيت تو ذي ستيشن؟", pron_en: "How doo ay get too thee stey-shon?", ar: "كيف أصل إلى المحطة؟" },
+                    { de: "Is the bank nearby?", breakdown: "Is = هل يكون | the = الـ | bank = بنك | nearby = قريب/بجوار", pron_ar: "إيز ذي بانك نيرباي؟", pron_en: "Iz thee bank neer-by?", ar: "هل البنك قريب؟" },
+                    { de: "The city center is beautiful", breakdown: "The = الـ | city center = وسط المدينة | is = يكون | beautiful = جميل", pron_ar: "ذي سيتي سينتر إيز بيوتيفول", pron_en: "The ci-ty cen-ter iz byoo-ti-ful", ar: "وسط المدينة جميل" }
+                ]
+            },
+            "education": {
+                title: "المدارس والتعليم 📚",
+                sentences: [
+                    { de: "I am learning English", breakdown: "I = أنا | am learning = أتعلم | English = الإنجليزية", pron_ar: "آي أم ليرنينج إنجليش", pron_en: "Ay am lair-ning Ing-lish", ar: "أنا أتعلم الإنجليزية" },
+                    { de: "Where is the university?", breakdown: "Where = أين | is = تكون | the = الـ | university = جامعة", pron_ar: "وير إيز ذي يونيفرسيتي؟", pron_en: "Wair iz thee oo-nee-ver-si-tee?", ar: "أين الجامعة؟" },
+                    { de: "I am doing my homework", breakdown: "I = أنا | am doing = أقوم بـ | my = لي | homework = الواجبات المنزلية", pron_ar: "آي أم دوينج ماي هومورك", pron_en: "Ay am doo-ing may home-werk", ar: "أنا أقوم بعمل واجباتي المدرسية" },
+                    { de: "The teacher explains the lesson", breakdown: "The = الـ | teacher = معلم | explains = يشرح | the = الـ | lesson = درس", pron_ar: "ذي تيشر إكسبلينز ذي ليسن", pron_en: "The tee-cher ex-pleynz thee les-son", ar: "المعلم يشرح الدرس" },
+                    { de: "The book is very interesting", breakdown: "The = الـ | book = كتاب | is = يكون | very = جداً | interesting = ممتع", pron_ar: "ذي بوك إيز فيري إنترستينج", pron_en: "The book iz ve-ry in-ter-es-ting", ar: "الكتاب ممتع جداً" },
+                    { de: "When does the class start?", breakdown: "When = متى | does the class start = يبدأ الدرس/الحصة", pron_ar: "وين دز ذي كلاس ستارت؟", pron_en: "Wen duz thee klas stahrt?", ar: "متى يبدأ الدرس؟" },
+                    { de: "I need a pen and paper", breakdown: "I = أنا | need = أحتاج | a pen = قلم | and = و | paper = ورق", pron_ar: "آي نيد أ بن أند بيبير", pron_en: "Ay need a pen and pey-per", ar: "أحتاج إلى قلم وورق" },
+                    { de: "The exam is tomorrow", breakdown: "The = الـ | exam = امتحان | is = يكون | tomorrow = غداً", pron_ar: "ذي إكزام إيز تومورو", pron_en: "The ex-am iz to-mor-roh", ar: "الامتحان غداً" },
+                    { de: "I have a question", breakdown: "I = أنا | have = عندي/لدي | a question = سؤال", pron_ar: "آي هاف أ كويستشن", pron_en: "Ay hav a kwes-chon", ar: "لدي سؤال" }
+                ]
+            },
+            "tech": {
+                title: "التقنية والبرمجة 💻",
+                sentences: [
+                    { de: "I am a programmer", breakdown: "I = أنا | am = أكون | a programmer = مبرمج", pron_ar: "آي أم أ بروجرامر", pron_en: "Ay am a pro-gram-mer", ar: "أنا مبرمج" },
+                    { de: "My computer is broken", breakdown: "My = لي | computer = حاسوب | is = يكون | broken = معطل", pron_ar: "ماي كمبيوتر إيز بروكن", pron_en: "May kom-pyoo-ter iz broh-ken", ar: "حاسوبي معطل" },
+                    { de: "I am writing code", breakdown: "I = أنا | am writing = أكتب | code = كود برمجي", pron_ar: "آي أم رايتينج كود", pron_en: "Ay am ry-ting kohd", ar: "أنا أكتب كوداً" },
+                    { de: "The website is not working", breakdown: "The = الـ | website = موقع إلكتروني | is not working = لا يعمل", pron_ar: "ذي ويبسايت إيز نوت وركينج", pron_en: "The vep-site iz not wer-king", ar: "الموقع الإلكتروني لا يعمل" },
+                    { de: "I need the WiFi password", breakdown: "I = أنا | need = أحتاج | the WiFi password = كلمة مرور الواي فاي", pron_ar: "آي نيد ذي وايفاي باسورد", pron_en: "Ay need thee Wy-fy pas-werd", ar: "أحتاج إلى كلمة مرور الواي فاي" },
+                    { de: "My battery is almost empty", breakdown: "My = لي | battery = بطارية | is almost empty = فارغة تقريباً", pron_ar: "ماي باتري إيز ألموست إمبتي", pron_en: "May bat-te-ree iz al-mohst emp-tee", ar: "بطاريتي فارغة تقريباً" },
+                    { de: "Where is the charger?", breakdown: "Where = أين | is = يكون | the charger = الشاحن", pron_ar: "وير إيز ذي تشارجر؟", pron_en: "Wair iz thee chahr-jer?", ar: "أين الشاحن؟" },
+                    { de: "I program with Dart and Flutter", breakdown: "I = أنا | program = أبرمج | with = بـ | Dart and Flutter = دارت وفلاتر", pron_ar: "آي بروجرام وِذ دارت أند فلاتر", pron_en: "Ay pro-gram with Dart and Flut-ter", ar: "أنا أبرمج باستخدام دارت وفلاتر" },
+                    { de: "The code has an error", breakdown: "The = الـ | code = كود | has an error = يحتوي على خطأ/به خطأ", pron_ar: "ذي كود هاز أن إيرور", pron_en: "The kohd haz an er-rer", ar: "الكود يحتوي على خطأ" }
+                ]
             }
         };
 
-        // ==========================================================================
-        // الدوال البرمجية الأساسية (Core Functions)
-        // ==========================================================================
+        const conversation = {
+            tech_summit: { 
+                title: "💻 قِمَّةُ التِّكْنُولُوجْيَا وَالذَّكَاءِ الاصْطِنَاعِيِّ", 
+                items: [
+                    { 
+                        speaker: "Satya", 
+                        us: "We are integrating quantum computing into our cloud infrastructure.", 
+                        uk: "We are integrating quantum computing into our cloud infrastructure.", 
+                        ar: "نَحْنُ نَقُومُ بِدَمْجِ الْحَوْسَبَةِ الْكَمِّيَّةِ فِي بِنْيَتِنَا التَّحْتِيَّةِ السَّحَابِيَّةِ.",
+                        pAr_us: "وِيْ آرْ إِنْتِغْرِيتِنْغْ كْوَانْتَمْ كَمْبْيُوتِنْغْ إِنْتُو أَوْرْ كْلَاوْدْ إِنْفْرَاسْتْرَكْتْشِرْ",
+                        pEn_us: "Wee ar in-te-grey-ting kwan-tam kam-byoo-ting in-tu owr klawd in-fra-strak-cher"
+                    },
+                    { 
+                        speaker: "Sundar", 
+                        us: "That sounds promising, we are focusing on advanced machine learning models.", 
+                        uk: "That sounds promising, we are focusing on advanced machine learning models.", 
+                        ar: "هَذَا يَبْدُو وَاعِدًا، نَحْنُ نُرَكِّزُ عَلَى نَمَاذِجِ تَعَلُّمِ الآلَةِ الْمُتَقَدِّمَةِ.",
+                        pAr_us: "ذَاتْ سَاوْنْدْزْ بْرُومِسِنْغْ، وِيْ آرْ فُوكَسِنْغْ أُوْنْ أَدْوَانْسْتْ مَشِينْ لِرْنِنْغْ مُودِلْزْ",
+                        pEn_us: "That sawndz pro-mi-sing, wee ar fo-ka-sing on ad-vanst ma-sheen ler-ning mo-delz"
+                    }
+                ]
+            },
+            business_meeting: { 
+                title: "💼 اجْتِمَاعُ مَجْلِسِ الإِدَارَةِ وَالتَّطْوِيرِ", 
+                items: [
+                    { 
+                        speaker: "Jeff", 
+                        us: "We need to scale our logistics and improve delivery speed.", 
+                        uk: "We need to scale our logistics and improve delivery speed.", 
+                        ar: "نَحْنُ بِحَاجَةٍ إِلَى تَوْسِيعِ عَمَلِيَّاتِنَا اللُّوجِسْتِيَّةِ وَتَحْسِينِ سُرْعَةِ التَّوْصِيلِ.",
+                        pAr_us: "وِيْ نِيدْ تُو سْكِيلْ أَوْرْ لُوجِسْتِكْسْ أَنْدْ اِمْبْرُوفْ دِلِيفَرِي سْبِيدْ",
+                        pEn_us: "Wee need tu skeyl owr lo-jis-tiks and im-proov de-li-ve-ree speed"
+                    }
+                ]
+            }
+        };
 
-        /**
-         * حساب العدد الإجمالي للجمل والمحادثات لتعزيز العداد الزجاجي
-         */
-        function calculateTotalItems() {
-            let total = 444; // قاعدة الجمل الأساسية
-            for(let category in DB) {
-                for(let subCategory in DB[category]) {
-                    total += DB[category][subCategory].items.length;
+        /* =========================================
+           تحميل الكلمات المضافة من المستخدم (localStorage)
+           ========================================= */
+        function loadCustomWords() {
+            let customWords = JSON.parse(localStorage.getItem('englishAppCustomWords')) || [];
+            customWords.forEach(custom => {
+                if(data[custom.category]) {
+                    data[custom.category].sentences.push(custom.wordData);
                 }
-            }
-            // تحديث الرقم في الهيدر مع إضافة حركة بسيطة
-            const counterElement = document.getElementById('global-count');
-            if (counterElement) {
-                counterElement.textContent = total;
-                counterElement.style.animation = 'pulseGlow 2s infinite';
-            }
+            });
         }
+        loadCustomWords();
 
-        /**
-         * تحديث الألوان الديناميكية للـ CSS بناءً على اللكنة المختارة
-         */
-        function updateThemeColor() {
-            const root = document.documentElement;
-            if (accent === 'US') {
-                root.style.setProperty('--primary', US_COLOR);
-            } else {
-                root.style.setProperty('--primary', UK_COLOR);
-            }
-        }
+        /* =========================================
+           بناء الأقسام وتحديث العدادات
+           ========================================= */
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            let categoriesHtml = '';
+            let globalTotal = 0;
 
-        /**
-         * تغيير اللكنة والتحديث الشامل للواجهة
-         */
-        function setAccent(selectedAccent) {
-            accent = selectedAccent;
-            
-            // تحديث حالة الأزرار
-            document.getElementById('btn-us').classList.toggle('active', selectedAccent === 'US');
-            document.getElementById('btn-uk').classList.toggle('active', selectedAccent === 'UK');
-            
-            // تغيير الألوان وإعادة رسم الشاشة
-            updateThemeColor();
-            renderUI();
-            
-            // إذا كانت النافذة المنبثقة مفتوحة، أعد رسمها أيضاً باللغة الجديدة
-            const modal = document.getElementById('data-modal');
-            if (modal.style.display === 'flex') {
-                const activeKey = modal.getAttribute('data-active-key');
-                if (activeKey) openModal(activeKey);
-            }
-        }
-
-        /**
-         * تغيير نظام العرض (جمل / محادثات / قواعد)
-         */
-        function setMode(selectedMode) {
-            mode = selectedMode;
-            
-            // تحديث أزرار التنقل (Nav Bar)
-            document.getElementById('nav-general').classList.toggle('active', selectedMode === 'general');
-            document.getElementById('nav-conversation').classList.toggle('active', selectedMode === 'conversation');
-            document.getElementById('nav-grammar').classList.toggle('active', selectedMode === 'grammar');
-            
-            // تغيير العنوان الرئيسي للصفحة
-            const titles = { 
-                general: 'الجمل اليومية والمفردات', 
-                conversation: 'المحادثات الاحترافية والشخصيات', 
-                grammar: 'القواعد الأكاديمية المفصلة' 
-            };
-            document.getElementById('main-title').textContent = titles[selectedMode];
-            
-            // إعادة رسم الكروت بناءً على النظام الجديد
-            renderUI();
-        }
-
-        /**
-         * رسم كروت الأقسام على الشاشة (Render Cards)
-         */
-        function renderUI() {
-            const container = document.getElementById('cards-container');
-            container.innerHTML = '';
-            
-            let data = DB[mode];
-            let animationDelay = 0;
-            
             for (let key in data) {
-                let itemCount = data[key].items.length;
-                let card = document.createElement('div');
-                card.className = 'card';
-                card.style.animationDelay = `${animationDelay}s`;
-                card.innerHTML = `
-                    <h3>${data[key].title}</h3>
-                    <div class="badge">📚 يحتوي على ${itemCount} جمل / محادثات</div>
+                let categoryCount = data[key].sentences.length;
+                globalTotal += categoryCount;
+
+                categoriesHtml += `
+                    <div class="card" onclick="openModal('${key}')">
+                        <h3>${data[key].title}</h3>
+                        <p>عرض الجمل 🚀</p>
+                        <div class="category-count-badge">📚 ${categoryCount} جملة</div>
+                    </div>`;
+            }
+            container.innerHTML = categoriesHtml;
+            document.getElementById('global-count').innerText = globalTotal;
+        }
+
+        renderCategories();
+
+        /* =========================================
+           التحكم في النافذة المنبثقة (Modal) لعرض الجمل
+           ========================================= */
+        const modal = document.getElementById('sentences-modal');
+        
+        function openModal(categoryKey) {
+            const category = data[categoryKey];
+            document.getElementById('modal-title').textContent = category.title; 
+            
+            let html = '';
+            category.sentences.forEach(item => {
+                let safeText = item.de.replace(/'/g, "\\'");
+                
+                let breakdownHtml = item.breakdown ? `
+                    <div class="breakdown-group">
+                        <span>🧩 تفكيك:</span> ${item.breakdown}
+                    </div>
+                ` : '';
+
+                html += `
+                    <div class="sentence-item">
+                        <div class="sentence-text-container">
+                            <div class="english-title-text">${item.de}</div>
+                            ${breakdownHtml}
+                            <div class="pronunciation-group">
+                                <span class="pronunciation-ar">🗣️ النطق: ${item.pron_ar || 'متاح صوتياً'}</span>
+                                <span class="pronunciation-en">| Phonetics: ${item.pron_en || 'Available'}</span>
+                            </div>
+                            <div class="translation-group">
+                                <span class="arabic-text">🇪🇬 ${item.ar}</span>
+                            </div>
+                        </div>
+                        <button class="speak-btn" onclick="speakText('${safeText}')">🔊</button>
+                    </div>
                 `;
-                
-                // إضافة حدث النقر لفتح النافذة المنبثقة
-                card.onclick = () => openModal(key);
-                
-                container.appendChild(card);
-                animationDelay += 0.05; // تأخير تدريجي للحركة
-            }
-        }
-
-        /**
-         * نظام النطق بالذكاء الاصطناعي
-         */
-        function speak(text, forcedAccent) {
-            if ('speechSynthesis' in window) {
-                // إيقاف أي نطق سابق
-                window.speechSynthesis.cancel();
-                
-                // تنظيف النص من علامات التنصيص لتجنب أخطاء برمجية
-                let cleanText = text.replace(/'/g, "");
-                
-                let utterance = new SpeechSynthesisUtterance(cleanText);
-                const currentAccent = forcedAccent || accent;
-                utterance.lang = currentAccent === 'US' ? 'en-US' : 'en-GB';
-                
-                // تحسين جودة الصوت إن أمكن
-                utterance.rate = 0.9; // أبطأ قليلاً ليكون أوضح للمتعلم
-                utterance.pitch = 1.0;
-                
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("عذراً، متصفحك لا يدعم خاصية تحويل النص إلى كلام.");
-            }
-        }
-
-        /**
-         * فتح النافذة المنبثقة (Modal) وعرض محتوى القسم
-         */
-        function openModal(key) {
-            const category = DB[mode][key];
-            const itemCount = category.items.length;
-            const modal = document.getElementById('data-modal');
-            
-            // تخزين المفتاح النشط لتحديثه عند تغيير اللكنة
-            modal.setAttribute('data-active-key', key);
-            
-            // تحديث الهيدر مع العداد
-            document.getElementById('modal-header').innerHTML = `
-                ${category.title} 
-                <span class="total-counter-badge">إجمالي: ${itemCount}</span>
-            `;
-            
-            const body = document.getElementById('modal-body');
-            body.innerHTML = '';
-
-            // بناء المحتوى بناءً على النظام (محادثة أو جمل عادية/قواعد)
-            if (mode === 'conversation') {
-                let chatContainer = document.createElement('div');
-                chatContainer.className = 'chat-layout';
-                
-                category.items.forEach((item, index) => {
-                    let usActive = accent === 'US' ? 'active' : 'inactive';
-                    let ukActive = accent === 'UK' ? 'active' : 'inactive';
-                    let usTextEscaped = item.us.replace(/'/g, "\\'");
-                    let ukTextEscaped = item.uk.replace(/'/g, "\\'");
-                    
-                    chatContainer.innerHTML += `
-                        <div class="chat-bubble" style="flex-direction: column; align-items: stretch; border-right: 5px solid ${accent === 'US' ? US_COLOR : UK_COLOR};">
-                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 10px; flex-wrap: wrap;">
-                                <div class="speaker-tag" style="margin-bottom: 0;">🗣️ ${item.speaker}</div>
-                                <div class="num-circle" style="width: 35px; height: 35px; font-size: 1.1em;">${index + 1}</div>
-                            </div>
-                            <div class="ar-text" style="font-size: 1.25em; font-weight: 800; color: var(--text-muted); text-align: right; margin-bottom: 15px;">${item.ar}</div>
-                            <div class="comparison-container">
-                                <div class="accent-block us ${usActive}">
-                                    <div class="flag-icon">🇺🇸</div>
-                                    <div class="accent-text-wrap">
-                                        <div class="accent-label">اللكنة الأمريكية (US)</div>
-                                        <div class="eng-text" style="font-size: 1.3em; margin-bottom: 0;">${item.us}</div>
-                                    </div>
-                                    <button class="sound-icon-small" onclick="speak('${usTextEscaped}', 'US')" title="استمع للنطق الأمريكي">🔊</button>
-                                </div>
-                                <div class="accent-block uk ${ukActive}">
-                                    <div class="flag-icon">🇬🇧</div>
-                                    <div class="accent-text-wrap">
-                                        <div class="accent-label">اللكنة البريطانية (UK)</div>
-                                        <div class="eng-text" style="font-size: 1.3em; margin-bottom: 0;">${item.uk}</div>
-                                    </div>
-                                    <button class="sound-icon-small" onclick="speak('${ukTextEscaped}', 'UK')" title="استمع للنطق البريطاني">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                body.appendChild(chatContainer);
-            } else {
-                // نظام القواعد أو الجمل العامة
-                category.items.forEach((item, index) => {
-                    let usActive = accent === 'US' ? 'active' : 'inactive';
-                    let ukActive = accent === 'UK' ? 'active' : 'inactive';
-                    let usTextEscaped = item.us.replace(/'/g, "\\'");
-                    let ukTextEscaped = item.uk.replace(/'/g, "\\'");
-                    let grammarTagHtml = item.rule ? `<div class="grammar-tag">${item.rule}</div>` : '';
-                    
-                    body.innerHTML += `
-                        <div class="list-item" style="flex-direction: column; align-items: stretch; border-right: 8px solid ${accent === 'US' ? US_COLOR : UK_COLOR};">
-                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
-                                <div class="num-circle">${index + 1}</div>
-                                <div class="ar-text" style="font-size: 1.3em; font-weight: 800; color: var(--dark); flex-grow: 1; text-align: right;">${item.ar}</div>
-                            </div>
-                            ${grammarTagHtml}
-                            <div class="comparison-container">
-                                <div class="accent-block us ${usActive}">
-                                    <div class="flag-icon">🇺🇸</div>
-                                    <div class="accent-text-wrap">
-                                        <div class="accent-label">اللكنة الأمريكية (US)</div>
-                                        <div class="eng-text" style="font-size: 1.35em; margin-bottom: 0;">${item.us}</div>
-                                    </div>
-                                    <button class="sound-icon-small" onclick="speak('${usTextEscaped}', 'US')" title="استمع للنطق الأمريكي">🔊</button>
-                                </div>
-                                <div class="accent-block uk ${ukActive}">
-                                    <div class="flag-icon">🇬🇧</div>
-                                    <div class="accent-text-wrap">
-                                        <div class="accent-label">اللكنة البريطانية (UK)</div>
-                                        <div class="eng-text" style="font-size: 1.35em; margin-bottom: 0;">${item.uk}</div>
-                                    </div>
-                                    <button class="sound-icon-small" onclick="speak('${ukTextEscaped}', 'UK')" title="استمع للنطق البريطاني">🔊</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            
-            // إظهار المودال
+            });
+            document.getElementById('sentences-list').innerHTML = html; 
             modal.style.display = 'flex';
-
-            // نطق تلقائي إذا كان الخيار مفعلاً
-            const autoPronounce = document.getElementById('auto-pronounce-toggle');
-            if (autoPronounce && autoPronounce.checked && category.items.length > 0) {
-                setTimeout(() => {
-                    const firstItem = category.items[0];
-                    const firstText = accent === 'US' ? firstItem.us : firstItem.uk;
-                    speak(firstText, accent);
-                }, 400);
-            }
         }
 
-        /**
-         * إغلاق النافذة المنبثقة
-         */
-        function closeModal() { 
-            const modal = document.getElementById('data-modal');
-            modal.style.display = 'none'; 
-            modal.removeAttribute('data-active-key');
-            
-            // إيقاف الصوت عند الإغلاق
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
+        function closeModal() {
+            modal.style.display = 'none';
+            if('speechSynthesis' in window) window.speechSynthesis.cancel();
         }
 
-        // إغلاق النافذة عند النقر خارجها (على الخلفية الزجاجية)
-        window.onclick = function(event) {
-            const modal = document.getElementById('data-modal');
-            const addWordModal = document.getElementById('add-word-modal');
-            if (event.target == modal) {
-                closeModal();
-            }
-            if (event.target == addWordModal) {
-                closeAddWordModal();
-            }
-        }
-
-        // ==========================================================================
-        // وظائف إضافة الجمل والقاموس المحلي (Add Word & LocalStorage)
-        // ==========================================================================
+        /* =========================================
+           نظام إضافة الكلمات (Form)
+           ========================================= */
+        const addWordModal = document.getElementById('add-word-modal');
+        
         function openAddWordModal() {
-            const select = document.getElementById('new-category');
-            select.innerHTML = '';
-            
-            // تعبئة الأقسام ديناميكياً
-            for (let modeKey in DB) {
-                for (let catKey in DB[modeKey]) {
-                    let option = document.createElement('option');
-                    option.value = `${modeKey}:${catKey}`;
-                    let modeName = modeKey === 'general' ? 'جمل' : modeKey === 'conversation' ? 'محادثة' : 'قواعد';
-                    option.textContent = `[${modeName}] - ${DB[modeKey][catKey].title}`;
-                    select.appendChild(option);
-                }
+            const selectCategory = document.getElementById('new-category');
+            selectCategory.innerHTML = '<option value="" disabled selected>اختر القسم المناسب...</option>';
+            for (let key in data) {
+                selectCategory.innerHTML += `<option value="${key}">${data[key].title}</option>`;
             }
-            
-            document.getElementById('add-word-modal').style.display = 'flex';
+            addWordModal.style.display = 'flex';
         }
 
         function closeAddWordModal() {
-            document.getElementById('add-word-modal').style.display = 'none';
+            addWordModal.style.display = 'none';
         }
 
         function submitNewWord(event) {
-            event.preventDefault();
-            const selectVal = document.getElementById('new-category').value.split(':');
-            const targetMode = selectVal[0];
-            const targetCategory = selectVal[1];
+            event.preventDefault(); 
             
-            const usText = document.getElementById('new-us').value.trim();
-            const ukText = document.getElementById('new-uk').value.trim();
-            const arText = document.getElementById('new-ar').value.trim();
-            const speakerText = document.getElementById('new-speaker').value.trim();
-            const ruleText = document.getElementById('new-rule').value.trim();
-
-            if (!usText || !ukText || !arText) {
-                alert("يرجى ملء الحقول الإلزامية.");
-                return;
-            }
-            
-            const newItem = {
-                mode: targetMode,
-                category: targetCategory,
-                us: usText,
-                uk: ukText,
-                ar: arText,
-                speaker: speakerText,
-                rule: ruleText
+            let category = document.getElementById('new-category').value;
+            let wordData = {
+                de: document.getElementById('new-de').value,
+                breakdown: document.getElementById('new-breakdown').value,
+                pron_ar: document.getElementById('new-pron-ar').value,
+                pron_en: document.getElementById('new-pron-en').value,
+                ar: document.getElementById('new-ar').value
             };
-            
-            // الحفظ في LocalStorage
-            let localDB = JSON.parse(localStorage.getItem('english_learning_local_db')) || [];
-            localDB.push(newItem);
-            localStorage.setItem('english_learning_local_db', JSON.stringify(localDB));
-            
-            // الإضافة إلى قاعدة البيانات النشطة في الذاكرة
-            DB[targetMode][targetCategory].items.push({
-                us: usText,
-                uk: ukText,
-                ar: arText,
-                speaker: speakerText,
-                rule: ruleText
-            });
-            
-            // إعادة تعيين النموذج وإغلاقه
+
+            data[category].sentences.push(wordData);
+            renderCategories();
+            allSentences.push(wordData);
+
+            let customWords = JSON.parse(localStorage.getItem('englishAppCustomWords')) || [];
+            customWords.push({ category: category, wordData: wordData });
+            localStorage.setItem('englishAppCustomWords', JSON.stringify(customWords));
+
             document.getElementById('add-word-form').reset();
             closeAddWordModal();
             
-            // تحديث الإحصائيات ورسم الواجهة
-            calculateTotalItems();
-            renderUI();
-            
-            alert("تم حفظ الجملة الجديدة بنجاح وإضافتها لمجموعتك التعليمية! 🎉");
+            alert("عاش جداً! 👏 تمت إضافة جملتك بنجاح.");
         }
 
-        function loadLocalData() {
-            let localData = localStorage.getItem('english_learning_local_db');
-            if (localData) {
-                try {
-                    let parsed = JSON.parse(localData);
-                    parsed.forEach(item => {
-                        if (DB[item.mode] && DB[item.mode][item.category]) {
-                            // التحقق من عدم التكرار
-                            let exists = DB[item.mode][item.category].items.some(x => x.us === item.us || x.uk === item.uk);
-                            if (!exists) {
-                                DB[item.mode][item.category].items.push({
-                                    us: item.us,
-                                    uk: item.uk,
-                                    ar: item.ar,
-                                    speaker: item.speaker || "",
-                                    rule: item.rule || ""
-                                });
-                            }
-                        }
-                    });
-                } catch(e) {
-                    console.error("Error loading local data", e);
-                }
-            }
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+            if (event.target == addWordModal) closeAddWordModal();
         }
 
-        // ==========================================================================
-        // محرك الامتحانات وتحدي الـ 50 سؤال (Quiz Engine)
-        // ==========================================================================
-        let quizQuestions = [];
-        let currentQuestionIndex = 0;
-        let quizScore = parseInt(localStorage.getItem('english_learning_quiz_score')) || 0;
-
-        function updateScoreDisplay() {
-            const scoreDisp = document.getElementById('score-display');
-            if (scoreDisp) scoreDisp.textContent = quizScore;
+        /* =========================================
+           نظام الامتحان (التحدي)
+           ========================================= */
+        let allSentences = [];
+        for (let key in data) {
+            allSentences = allSentences.concat(data[key].sentences);
         }
 
-        function generateQuizQuestions() {
-            let allItems = [];
-            for (let modeKey in DB) {
-                for (let catKey in DB[modeKey]) {
-                    DB[modeKey][catKey].items.forEach(item => {
-                        allItems.push({ ...item, categoryTitle: DB[modeKey][catKey].title });
-                    });
-                }
-            }
-            
-            // ترتيب عشوائي للجمل
-            allItems.sort(() => Math.random() - 0.5);
-            
-            let questions = [];
-            
-            for (let i = 0; i < allItems.length; i++) {
-                let item = allItems[i];
-                
-                // النوع الأول: الترجمة من الإنجليزية إلى العربية
-                questions.push({
-                    type: 'translation',
-                    question: `ما هي الترجمة العربية الصحيحة للجملة التالية؟<br><strong style="font-size: 1.25em; display:block; margin-top:10px; color:var(--primary); direction:ltr; text-align:center;">${item.us}</strong>`,
-                    correct: item.ar,
-                    options: [item.ar]
-                });
-                
-                // النوع الثاني: الفروق اللفظية والمفردات بين الأمريكي والبريطاني (إذا اختلفا)
-                if (item.us !== item.uk) {
-                    questions.push({
-                        type: 'us_vs_uk',
-                        question: `كيف تُكتب هذه الجملة باللكنة البريطانية (🇬🇧 UK)؟<br>🇺🇸 الأمريكية: <strong style="font-size: 1.2em; display:block; margin-top:10px; color:var(--us-color); direction:ltr; text-align:center;">${item.us}</strong>`,
-                        correct: item.uk,
-                        options: [item.uk]
-                    });
-                    
-                    questions.push({
-                        type: 'uk_vs_us',
-                        question: `كيف تُكتب هذه الجملة باللكنة الأمريكية (🇺🇸 US)؟<br>🇬🇧 البريطانية: <strong style="font-size: 1.2em; display:block; margin-top:10px; color:var(--uk-color); direction:ltr; text-align:center;">${item.uk}</strong>`,
-                        correct: item.us,
-                        options: [item.us]
-                    });
-                }
-            }
-            
-            // ملء الخيارات الخاطئة لكل سؤال
-            questions.forEach(q => {
-                let incorrect = [];
-                if (q.type === 'translation') {
-                    let pool = allItems.map(x => x.ar).filter(ar => ar !== q.correct);
-                    pool = [...new Set(pool)];
-                    pool.sort(() => Math.random() - 0.5);
-                    incorrect = pool.slice(0, 3);
-                } else if (q.type === 'us_vs_uk') {
-                    let pool = allItems.map(x => x.uk).filter(uk => uk !== q.correct);
-                    pool = [...new Set(pool)];
-                    pool.sort(() => Math.random() - 0.5);
-                    incorrect = pool.slice(0, 3);
-                } else if (q.type === 'uk_vs_us') {
-                    let pool = allItems.map(x => x.us).filter(us => us !== q.correct);
-                    pool = [...new Set(pool)];
-                    pool.sort(() => Math.random() - 0.5);
-                    incorrect = pool.slice(0, 3);
-                }
-                
-                q.options = [q.correct, ...incorrect];
-                q.options.sort(() => Math.random() - 0.5);
-            });
-            
-            questions.sort(() => Math.random() - 0.5);
-            return questions.slice(0, 50);
-        }
+        const TOTAL_QUESTIONS = 50; 
+        let currentQuestionNumber = 0;
+        let sessionScore = 0;
+        let currentCorrectAnswer = null;
+        
+        let globalScore = parseInt(localStorage.getItem('englishAppScore')) || 0;
+        document.getElementById('score-display').textContent = globalScore;
 
         function startQuizSession() {
-            quizQuestions = generateQuizQuestions();
-            currentQuestionIndex = 0;
-            
+            if (allSentences.length < 3) return;
+            currentQuestionNumber = 0;
+            sessionScore = 0;
             document.getElementById('quiz-progress-container').style.display = 'block';
-            showQuizQuestion();
+            loadNextQuestion();
         }
 
-        function showQuizQuestion() {
-            if (currentQuestionIndex >= quizQuestions.length) {
-                document.getElementById('quiz-content').innerHTML = `
-                    <h3 style="color: var(--success); font-size: 2em; font-weight:900;">تهانينا! 🎉</h3>
-                    <p style="font-size: 1.3em; margin: 15px 0; font-weight:700;">لقد أتممت تحدي الـ 50 سؤال بنجاح.</p>
-                    <p style="font-size: 1.25em; font-weight:700;">رصيدك الحالي هو: <strong style="color:var(--gold); font-size:1.5em;">${quizScore}</strong> نقطة.</p>
-                    <button class="quiz-btn" onclick="startQuizSession()" style="border-radius:20px;">ابدأ تحدياً جديداً 🔄</button>
-                `;
-                document.getElementById('quiz-options').innerHTML = '';
-                document.getElementById('quiz-feedback').innerHTML = '';
-                document.getElementById('next-btn-container').innerHTML = '';
+        function loadNextQuestion() {
+            if (currentQuestionNumber >= TOTAL_QUESTIONS) {
+                endQuizSession();
                 return;
             }
+
+            currentQuestionNumber++;
             
-            const q = quizQuestions[currentQuestionIndex];
-            
-            // تحديث شريط التقدم
-            const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+            let progressPercent = ((currentQuestionNumber - 1) / TOTAL_QUESTIONS) * 100;
             document.getElementById('quiz-progress-fill').style.width = `${progressPercent}%`;
+
+            let correctIndex = Math.floor(Math.random() * allSentences.length);
+            let correctSentence = allSentences[correctIndex];
+            currentCorrectAnswer = correctSentence.de;
+
+            let wrong1, wrong2;
+            do { wrong1 = allSentences[Math.floor(Math.random() * allSentences.length)]; } while (wrong1.de === correctSentence.de);
+            do { wrong2 = allSentences[Math.floor(Math.random() * allSentences.length)]; } while (wrong2.de === correctSentence.de || wrong2.de === wrong1.de);
+
+            let options = [correctSentence, wrong1, wrong2].sort(() => Math.random() - 0.5);
+
+            document.getElementById('quiz-feedback').innerHTML = '';
+            document.getElementById('next-btn-container').innerHTML = '';
             
             document.getElementById('quiz-content').innerHTML = `
-                <div class="question-counter">السؤال ${currentQuestionIndex + 1} من ${quizQuestions.length}</div>
-                <p class="quiz-question">${q.question}</p>
+                <div class="question-counter">السؤال ${currentQuestionNumber} من ${TOTAL_QUESTIONS}</div>
+                <div class="quiz-question">كيف تقول بالإنجليزية: <span>"${correctSentence.ar}"</span></div>
             `;
             
             const optionsContainer = document.getElementById('quiz-options');
             optionsContainer.innerHTML = '';
             
-            q.options.forEach(option => {
+            options.forEach(opt => {
                 let btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerHTML = `<span>${option}</span>`;
-                btn.onclick = () => checkQuizAnswer(btn, option, q.correct);
+                btn.dataset.answer = opt.de; 
+                
+                let textSpan = document.createElement('span');
+                textSpan.textContent = opt.de; 
+                
+                let audioBtn = document.createElement('button');
+                audioBtn.className = 'inline-audio-btn';
+                audioBtn.textContent = '🔊';
+                audioBtn.onclick = (e) => {
+                    e.stopPropagation(); 
+                    speakText(opt.de);
+                };
+
+                btn.appendChild(textSpan);
+                btn.appendChild(audioBtn);
+                
+                btn.onclick = () => checkAnswer(btn, opt.de);
                 optionsContainer.appendChild(btn);
             });
-            
-            document.getElementById('quiz-feedback').innerHTML = '';
-            document.getElementById('next-btn-container').innerHTML = '';
         }
 
-        function checkQuizAnswer(selectedBtn, chosen, correct) {
-            const buttons = document.querySelectorAll('#quiz-options .option-btn');
-            buttons.forEach(btn => btn.disabled = true);
+        function checkAnswer(buttonElement, selectedAnswer) {
+            let allButtons = document.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => btn.disabled = true);
+
+            let feedback = document.getElementById('quiz-feedback');
             
-            const feedback = document.getElementById('quiz-feedback');
-            const nextContainer = document.getElementById('next-btn-container');
-            
-            if (chosen === correct) {
-                selectedBtn.classList.add('correct-answer');
-                feedback.innerHTML = '<span style="color: var(--success);">إجابة صحيحة! ممتاز! 🥳</span>';
-                
-                // نطق الإجابة الصحيحة تلقائياً
-                if (quizQuestions[currentQuestionIndex].type !== 'translation') {
-                    speak(correct);
-                }
-                
-                quizScore += 10;
-                localStorage.setItem('english_learning_quiz_score', quizScore);
-                updateScoreDisplay();
+            if (selectedAnswer === currentCorrectAnswer) {
+                buttonElement.classList.add('correct-answer');
+                feedback.innerHTML = '<div style="color: var(--success); font-weight:bold; margin-top:10px;">إجابة صحيحة! 👏</div>';
+                sessionScore++;
+                globalScore++;
+                localStorage.setItem('englishAppScore', globalScore);
+                document.getElementById('score-display').textContent = globalScore;
+                speakText(currentCorrectAnswer); 
             } else {
-                selectedBtn.classList.add('wrong-answer');
-                feedback.innerHTML = `<span style="color: var(--danger);">إجابة خاطئة! 😢 الإجابة الصحيحة هي:<br><strong>${correct}</strong></span>`;
+                buttonElement.classList.add('wrong-answer');
+                feedback.innerHTML = `<div style="color: var(--danger); font-weight:bold; margin-top:10px;">إجابة خاطئة! الإجابة الصحيحة هي: <br><strong>${currentCorrectAnswer}</strong></div>`;
                 
-                buttons.forEach(btn => {
-                    if (btn.textContent.trim() === correct) {
+                allButtons.forEach(btn => {
+                    if(btn.dataset.answer === currentCorrectAnswer) { 
                         btn.classList.add('correct-answer');
                     }
                 });
             }
-            
-            nextContainer.innerHTML = `
-                <button class="quiz-btn" onclick="nextQuizQuestion()" style="border-radius:20px;">السؤال التالي ➡️</button>
+
+            document.getElementById('next-btn-container').innerHTML = `
+                <button class="quiz-btn" onclick="loadNextQuestion()">السؤال التالي ➡️</button>
             `;
         }
 
-        function nextQuizQuestion() {
-            currentQuestionIndex++;
-            showQuizQuestion();
+        function endQuizSession() {
+            document.getElementById('quiz-progress-fill').style.width = '100%';
+            document.getElementById('quiz-options').innerHTML = '';
+            document.getElementById('quiz-feedback').innerHTML = '';
+            document.getElementById('next-btn-container').innerHTML = '';
+            
+            let message = sessionScore >= (TOTAL_QUESTIONS * 0.8) ? "أداء أسطوري! أنت بطل حقيقي 🏆" : "استمر في التدريب، هتبقى أحسن! 💪";
+
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="quiz-question" style="font-size: 2em; color: var(--gold);">انتهى التحدي! 🎉</div>
+                <p style="font-size: 1.5em; font-weight: bold; margin: 10px 0;">نتيجتك: ${sessionScore} / ${TOTAL_QUESTIONS}</p>
+                <p style="font-size: 1.2em; color: var(--text-muted); margin-bottom:15px;">${message}</p>
+                <button class="quiz-btn" onclick="startQuizSession()">إعادة التحدي 🔄</button>
+            `;
         }
-
-        // ==========================================================================
-        // التشغيل المبدئي للتطبيق (Initialization)
-        // ==========================================================================
-        window.onload = function() {
-            loadLocalData();
-            calculateTotalItems();
-            updateThemeColor();
-            setMode('general');
-            updateScoreDisplay();
-        };
-
     </script>
 </body>
 </html>
